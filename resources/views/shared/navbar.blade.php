@@ -4,7 +4,7 @@
  && request()->route()->getName() !== "staff.edit" && request()->route()->getName() !== "sa.edit" 
  && request()->route()->getName() !== "staff.profile")
  
-<div class="text-right max-w-[1250px] my-auto ml-auto mr-0 flex items-center justify-between gap-4 px-6">
+<div class="text-right flex items-center justify-between gap-4 px-6">
     <div class="flex items-center justify-center">
         <img src="{{auth()->user()->userProfile->getImageUrl()}}" alt="" class="w-[50px] h-[50px] rounded-full">
         <div class="grid text-start">
