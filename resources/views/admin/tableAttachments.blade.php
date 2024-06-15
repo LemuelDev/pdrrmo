@@ -19,7 +19,7 @@
       @forelse ($files as $file)
             <tr>
                 <th scope="row" class="text-center pt-3">{{$file->id}} </th>
-                <td class="text-center pt-3  max-w-[350px] whitespace-no-wrap overflow-hidden truncate">
+                <td class="text-center pt-3  max-w-[300px] whitespace-no-wrap overflow-hidden truncate">
                     <a href="{{url('storage/'. $file->path )}}" target="_blank">{{$file->filename}}</a>
                 </td>
                 <td class="text-center pt-3 max-w-[250px] whitespace-no-wrap overflow-hidden truncate">

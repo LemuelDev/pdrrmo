@@ -12,6 +12,7 @@
             <input type="text" name="username" id="username" placeholder="Enter username..." class="py-3 px-6 bor-r-8 bg-slate-100 border-black outline-green-500">
             <input type="password" name="password" id="password" placeholder="Enter password..." class="py-3 px-6 bor-r-8 bg-slate-100 border-black outline-green-500">
             <button type="submit" class="py-3 text-xl px-7 border-r-full border-none bg-green-500 text-white rounded-lg">LOGIN</button>
+            <a href="{{route('password.request')}}" class="text-blue-600 text-center text-lg hover:underline">Forgot Password?</a>
             <p class="py-2 text-xl text-center">Don't have any account? <a href="{{route('signup')}}" class="text-xl text-blue-600">Sign Up</a></p>
             
             @if (session()->has('failed'))

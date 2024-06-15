@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ApproveEmail;
 use App\Models\Attachment;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class SuperAdminController extends Controller
@@ -176,6 +179,8 @@ class SuperAdminController extends Controller
             "isPending" => 'approved',
             "user_status" => 'active'
         ]);
+        $message = "Your account is finally approved and active. You can now login to the portal and use the system as of now.";
+        Mail::to($user->userProfile->email)->send(new ApproveEmail($message));
         return redirect()->route('sa.approval')->with('success', 'User is now finally approve.');
     }
 
@@ -288,5 +293,33 @@ class SuperAdminController extends Controller
         return view("superadmin.sa_admins", [
             "admins" => $staffs->paginate(8)
         ]);
+    }
+
+    public function updatePasswordForm() {
+        return view('superadmin.sa_updatePass');
+    }
+
+    public function updatePassword(User $user) {
+        // Validate the request inputs
+        $validated = request()->validate([
+            "old_password" => "required|min:8",
+            "new_password" => "required|min:8|confirmed" // Ensure new password is confirmed
+        ]);
+        
+        // Check if the old password matches the current password
+        if (!Hash::check($validated["old_password"], $user->password)) {
+            // Redirect back with an error if the current password does not match
+            return redirect()->back()->with('failed', "Your current password is incorrect.");
+        };
+        
+        // Update the user's password
+        $user->update([
+            "password" => Hash::make($validated["new_password"])
+        ]);
+
+        $user->save();
+    
+        // Redirect back with a success message
+        return redirect()->route('sa.profile')->with('success', 'Password successfully updated.');
     }
 }

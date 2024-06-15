@@ -1,4 +1,4 @@
-@extends('layout.superadminPanel')
+@extends('layout.adminPanel')
 
 @section('content')
     <section class="min-h-[100vh] w-full flex items-start">
@@ -36,7 +36,7 @@
             <select name="user_type" id=""  class="py-3 px-6 rounded-lg shadow-xl bg-slate-100 border-black outline-green-500">
                 <option value="staff" {{ $admin->userProfile->user_type == 'staff' ? 'selected' : '' }}>staff</option>
                 <option value="admin" {{ $admin->userProfile->user_type == 'admin' ? 'selected' : '' }}>admin</option>
-                <option value="superadmin" {{ $admin->userProfile->user_type == 'superadmin' ? 'selected' : '' }}>superadmin</option>
+                
             </select>
         </div>
         <div class="grid">
@@ -57,7 +57,7 @@
                     <option value="pending" {{ $admin->userProfile->isPending == 'pending' ? 'selected' : '' }}>pending</option>
                 </select>
         </div>
-       <div class="grid">
+       {{-- <div class="grid">
             <label for="municipality" class="text-lg font-bold pb-4">
                 MUNICIPALITY:
             </label>
@@ -78,8 +78,8 @@
                 <option value="pdrrmo" {{ $admin->userProfile->municipality == 'pdrrmo' ? 'selected' : '' }}>PDRRMO</option>
             </select>
             
-       </div>
-       <button type="submit" class="py-3 text-xl px-7  border-r-full border-none bg-green-500 hover:bg-green-600 text-white rounded-lg max-h-[50px] max-w-[200px]">UPDATE</button>
+       </div> --}}
+       <button type="submit" class="py-3 text-xl px-7 mt-11  border-r-full border-none bg-green-500 hover:bg-green-600 text-white rounded-lg max-h-[50px] max-w-[200px]">UPDATE</button>
         </form>
         @if ($errors->any())
         

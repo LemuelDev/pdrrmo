@@ -3,10 +3,11 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Attachments;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\SuperAdminController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\PasswordResetController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,9 +32,25 @@ Route::get('/signup', [AuthController::class , 'register'])->name('signup');
 // registering account
 Route::post('/users', [AuthController::class,'store'])->name('users.store');
 
-Route::view('/confirmation', 'shared.confirmation')->name('confirmation');
+Route::get('/confirmation', [AuthController::class , 'confirmation'])->name('confirmation');
 
 Route::post('/logout', [AuthController::class , 'logout'])->name('logout');
+// Show the form to request a password reset link
+
+Route::get('password/reset', [PasswordResetController::class, 'showLinkRequestForm'])
+    ->name('password.request');
+
+// Handle sending the password reset link
+Route::post('password/email', [PasswordResetController::class, 'sendResetLinkEmail'])
+    ->name('password.email');
+
+// Show the form to reset the password
+Route::get('password/reset/{token}', [PasswordResetController::class, 'showResetForm'])
+    ->name('password.reset');
+
+// Handle the password reset form submission
+Route::post('password/reset/', [PasswordResetController::class, 'reset'])
+    ->name('password.update');
 
 
 // superadmin-routes
@@ -77,6 +94,12 @@ Route::middleware(['auth' , 'superadmin'])->group(function () {
         Route::get('/sa-staff/{municipality}', [SuperAdminController::class ,'specificStaff'])->name('sa.specificStaff');
 
         Route::get('/sa-admins/{municipality}', [SuperAdminController::class ,'specificAdmin'])->name('sa.specificAdmin');
+
+        Route::get('/sa/update-password/{user}/edit', [SuperAdminController::class, 'updatePasswordForm'])
+        ->name('sa.password');
+        
+        Route::put('/sa/update-password/{user}', [SuperAdminController::class, 'updatePassword'])
+            ->name('sa.passUpdate');
 });
 
 // admin-routes
@@ -122,7 +145,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/admin-approval/user/{user}', [AdminController::class, 'approve'])->name('admin.approve');
 
-   
+    Route::get('/admin/update-password/{user}/edit', [AdminController::class, 'updatePasswordForm'])
+    ->name('admin.password');
+
+    Route::put('/admin/update-password/{user}', [AdminController::class, 'updatePassword'])
+        ->name('admin.passUpdate');
 
     
     
@@ -153,6 +180,13 @@ Route::middleware(['auth', 'staff'])->group(function () {
     Route::get('/staff-attachments/everyone/{municipality?}', [StaffController::class, 'specificMunicipality'])
     ->name('staff.search');
 
+    Route::get('/staff/update-password/{user}/edit', [StaffController::class, 'updatePasswordForm'])
+    ->name('staff.password');
+
+    Route::put('/staff/update-password/{user}', [StaffController::class, 'updatePassword'])
+        ->name('staff.passUpdate');
+
+
 });
 
 
@@ -172,10 +206,10 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/attachment/delete/{file}', [Attachments::class, 'destroy'])->name('file.destroy');
 
-
     Route::delete('/user/delete/{user}', [AuthController::class , 'destroy'])->name('user.destroy');
 
 });
+
 
 
 

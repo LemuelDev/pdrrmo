@@ -19,7 +19,7 @@
            <tr>
                 <th scope="row" class="text-center">{{$admin->id}} </th>
                 <td class="text-center">{{$admin->name}} </td>
-                <td class="text-center">{{$admin->email}} </td>
+                <td class="text-center pt-3  max-w-[300px] whitespace-no-wrap overflow-hidden truncate">{{$admin->email}} </td>
                 <td class="text-center">{{$admin->user_type}} </td>
                 <td class="text-center">{{$admin->user_status}} </td>
                 <td class="text-center">{{$admin->municipality}} </td>

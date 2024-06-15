@@ -4,8 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\UserProfile;
+use App\Notifications\WelcomeMailNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Mail\WelcomeEmail;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -18,9 +22,7 @@ class AuthController extends Controller
     public function login(){
         return view ("shared.login");
     }
-
     public function store (){
-
 
         $validated = request()->validate([
             "name" => "required|min:5|max:40|unique:userprofiles,name",
@@ -43,10 +45,18 @@ class AuthController extends Controller
             "password"=> Hash::make($validated["password"]),
             "userprofile_id" => $userProfile->id 
         ]);
+        
         session()->put('email', $validated['email']);
+        
+        // Send email notification
+        $message = "Thanks for Signing up! Your Account is still for approval. We will contact you once your account is approved and ready to use.";
+        Mail::to($validated["email"])->send(new WelcomeEmail($message, $validated["name"], $validated["username"], $validated["email"], $validated["municipality"]));
+
+
         return redirect()->route("confirmation");
 
     }
+    
 
     public function authenticate(){
         
@@ -57,15 +67,18 @@ class AuthController extends Controller
 
 
          if (auth()->attempt($validated)){
-
+        
+            // $user = auth()->user()->load('userProfile');
+            // dd($user, $user->userProfile); 
             $user = auth()->user();
-            if ($user->userProfile->isPending === 'pending'){
+            if ($user->userProfile->isPending == 'pending'){
 
                 return redirect()->route("login")->with('failed', 'Your account is still for approval.');
-            }else if ($user->userProfile->user_status === 'inactive'){
+            }else if ($user->userProfile->user_status == 'inactive'){
                 
                 return redirect()->route("login")->with('failed', 'Your account is inactive.');
             }else {
+
                 request()->session()->regenerate();
 
                 if ($user->userProfile->user_type === 'superadmin') {
@@ -73,7 +86,6 @@ class AuthController extends Controller
                     return redirect()->route('sa.admins');
                 } elseif ($user->userProfile->user_type === 'admin') {
                  
-                    
                     if (auth()->user()->userProfile->municipality === 'pdrrmo'){
                         return redirect()->route('admin.admin');
                     }else {
@@ -81,17 +93,27 @@ class AuthController extends Controller
                     }
         
                 } elseif ($user->userProfile->user_type === 'staff') {
-        
-                    $municipality = $user->userProfile->municipality;
                     return redirect()->route('staff.attachments');
                 }
             }
 
         }else {
-            return redirect()->route("login")->withErrors([
-                "password" => "Invalid Credentials. Try Again."
-            ]);
+                    // Check if the username exists in the database
+                $usernameExists = User::where('username', request('username'))->exists();
+
+                if ($usernameExists) {
+                    // If username exists but password is wrong
+                    return redirect()->route("login")->withErrors([
+                        "password" => "Incorrect password. Please try again."
+                    ])->withInput(request()->only('username'));
+                } else {
+                    // If username doesn't exist
+                    return redirect()->route("login")->withErrors([
+                        "username" => "Invalid login credentials. Please try again."
+                    ]);
+                }
         }
+        
     }
 
     public function logout(){
@@ -119,6 +141,11 @@ class AuthController extends Controller
             }
         }
 
+    }
+
+    public function confirmation() {
+        return view('shared.confirmation');
+       
     }
     
 }

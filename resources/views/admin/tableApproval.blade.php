@@ -17,7 +17,7 @@
         <tr>
         <th scope="row" class="text-center"> {{$staff->id}}</th>
         <td class="text-center">{{$staff->name}} </td>
-        <td class="text-center">{{$staff->email}} </td>
+        <td class="text-center pt-3  max-w-[300px] whitespace-no-wrap overflow-hidden truncate">{{$staff->email}} </td>
         <td class="text-center">{{$staff->user_type}} </td>
         <td class="text-center">{{$staff->municipality}} </td>
         <td class="pt-2 text-center flex items-center justify-center gap-4">

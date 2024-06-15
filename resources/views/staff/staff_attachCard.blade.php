@@ -1,4 +1,4 @@
-@extends('layout.superadminPanel')
+@extends('layout.staffPanel')
 
 @section('content')
     <section class="min-h-[100vh] w-full flex items-start">

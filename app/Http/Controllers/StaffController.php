@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attachment;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class StaffController extends Controller
@@ -154,4 +155,33 @@ class StaffController extends Controller
         
         return redirect()->route('staff.profile')->with('success','Profile update success!');
     }
+
+    public function updatePasswordForm() {
+        return view('staff.staff_updatePass');
+    }
+
+    public function updatePassword(User $user) {
+        // Validate the request inputs
+        $validated = request()->validate([
+            "old_password" => "required|min:8",
+            "new_password" => "required|min:8|confirmed" // Ensure new password is confirmed
+        ]);
+        
+        // Check if the old password matches the current password
+        if (!Hash::check($validated["old_password"], $user->password)) {
+            // Redirect back with an error if the current password does not match
+            return redirect()->back()->with('failed', "Your current password is incorrect.");
+        };
+        
+        // Update the user's password
+        $user->update([
+            "password" => Hash::make($validated["new_password"])
+        ]);
+
+        $user->save();
+    
+        // Redirect back with a success message
+        return redirect()->route('staff.profile')->with('success', 'Password successfully updated.');
+    }
+    
 }

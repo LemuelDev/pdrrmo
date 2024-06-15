@@ -1,4 +1,4 @@
-@extends('layout.staffPanel')
+@extends('layout.superadminPanel')
 
 @section('content')
     <section class="min-h-[100vh] w-full flex items-start">
@@ -8,48 +8,49 @@
 
             @include('shared.navbar')
            <div class="pt-16 pl-8">
-                <h4 class="text-2xl font-bold">NEW ATTACHMENT:</h4>
+                <h4 class="text-2xl font-bold">UPDATE PASSWORD:</h4>
            </div>
            
  <div class="py-4 pl-8 flex items-start justify-around max-w-[1100px] gap-4 ">
-    <form action="{{route('staff.attachments-store')}}" method="post" class="grid gap-6 p-8 shadow-2xl rounded-lg" enctype="multipart/form-data">
-        @csrf
-        <div class="grid py-2">
-            <label for="attachments" class="text-xl font-bold pb-4">
-                ATTACHMENT:
-            </label>
-            <input type="file" name="attachment" id="attachment" class="py-3 px-6 rounded-lg shadow-xl bg-slate-100 border-black outline-green-500">
-       </div>
-       <div class="grid py-2">
-        <label for="attachments" class="text-xl font-bold pb-4">
-            RESTRICTIONS:
-        </label>
-        <select name="restrictions" id="restrictions" class="py-3 px-6 rounded-lg shadow-xl bg-slate-100 border-black outline-green-500">
-            <option value="Public">Public</option>
-            <option value="Everyone">Everyone</option>
-            <option value="{{auth()->user()->userProfile->municipality}}">Municipality Only</option>
-            <option value="Only_Me">Only Me</option>
-        </select>
+        <div class="max-w-[400px]">
+            <form action="{{ route('sa.passUpdate', auth()->user()->id) }}" method="post" class="grid gap-6 p-8 px-10 min-w-[400px] shadow-2xl rounded-lg" enctype="multipart/form-data">
+                @csrf
+                @method('put')
+                <div class="grid py-2">
+                    <label for="old_password" class="text-xl font-bold pb-4">
+                        CURRENT PASSWORD:
+                    </label>
+                    <input type="password" name="old_password" id="old_password" placeholder="Enter current password" class="py-3 px-6 rounded-lg shadow-xl bg-slate-100 border-black outline-green-500">
+                 </div>
+                 <div class="grid py-2">
+                    <label for="new_password" class="text-xl font-bold pb-4">
+                        NEW PASSWORD:
+                    </label>
+                    <input type="password" name="new_password" id="new_password" placeholder="Enter new password" class="py-3 px-6 rounded-lg shadow-xl bg-slate-100 border-black outline-green-500">
+                 </div>
+                 <div class="grid py-2">
+                    <label for="new_password_confirmation" class="text-xl font-bold pb-4">
+                        CONFIRM NEW PASSWORD:
+                    </label>
+                    <input type="password" name="new_password_confirmation" id="new_password_confirmation" placeholder="Confirm new password" class="py-3 px-6 rounded-lg shadow-xl bg-slate-100 border-black outline-green-500">
+                </div>
+               <button type="submit" class="py-3 text-xl px-7  border-r-full border-none bg-green-500 hover:bg-green-600 text-white rounded-lg ">POST</button>
+            </form>
+                @if ($errors->any())
+                <div class="grid mt-7">
+                    @foreach ($errors->all() as $error)
+                    <p class="py-1 text-lg text-red-500 text-center"> {{ $error }}</p>
+                    @endforeach
+                </div>
+                @endif
         </div>
-        
-       
-       <button type="submit" class="py-3 text-xl px-7  border-r-full border-none bg-green-500 hover:bg-green-600 text-white rounded-lg ">POST</button>
-       @if ($errors->any())
-        
-        <div class="grid mt-7">
-            @foreach ($errors->all() as $error)
-               <p class="py-1 text-lg text-red-500 text-center"> {{ $error }}</p>
-            @endforeach
-        </div>
-        @endif
-    </form>
-    <div class=" p-8 py-16 text-start leading-10 shadow-2xl rounded-lg">
-        <h4 class="text-2xl font-bold pb-2">IMPORTANT THINGS TO CONSIDER:</h4>
-        <p>- the file must not be greater than 50mb.</p>
-        <p>- the file must have a pdf, doc, docx, pptx, or xlsx extension.</p>
 
-    </div>
-</div> 
+        <div class=" p-8 py-16 text-start leading-10 shadow-2xl rounded-lg">
+            <h4 class="text-2xl font-bold pb-2">IMPORTANT THINGS TO CONSIDER:</h4>
+            <p>- input your current password.</p>
+            <p>- create your new password and update it.</p>
+        </div>
+    </div> 
 
          
 @if (session()->has('failed'))
@@ -60,7 +61,7 @@
             <div class="bg-white rounded-lg shadow-lg p-6 mx-4 sm:mx-auto w-full sm:w-96">
                 <!-- Modal Header -->
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-semibold">ATTACHMENT</h2>
+                    <h2 class="text-lg font-semibold">INCORRECT PASSWORD</h2>
                     <!-- Close Button -->
                     <a href="#" id="close-modal" class="text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700" aria-label="Close">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

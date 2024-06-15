@@ -23,6 +23,5 @@
                 @csrf
                 <button class="py-2 bg-red-600 text-white text-md px-4 rounded-md m-auto hover:bg-red-700 border-none ">LOGOUT</button>
             </form>
-        
         </div>
 @endif
