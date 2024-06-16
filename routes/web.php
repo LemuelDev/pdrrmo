@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\SuperAdminController;
+use App\Http\Controllers\TransferRequestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PasswordResetController;
 /*
@@ -100,6 +101,19 @@ Route::middleware(['auth' , 'superadmin'])->group(function () {
         
         Route::put('/sa/update-password/{user}', [SuperAdminController::class, 'updatePassword'])
             ->name('sa.passUpdate');
+
+            
+    Route::get('/sa/request-of-transfers', [SuperAdminController::class, 'showRequest'])->name('sa.request');
+
+    Route::get('/sa/approval-of-transfers', [SuperAdminController::class, 'showApproval'])->name('sa.showApproval');
+
+    Route::get('/sa/approval-of-transfers/{user}', [SuperAdminController::class, 'approvedApproval'])->name('sa.approved');
+
+    Route::get('/sa-request', [SuperAdminController::class, 'goToRequest'])->name('sa.showRequest');
+
+    Route::post('/sa-request', [TransferRequestController::class, 'store'])->name('sa.requestTransfer');
+    
+    Route::get('/sa/request-of-transfers/user/{user}', [SuperAdminController::class, 'approvedRequest'])->name('sa.requestApproved');
 });
 
 // admin-routes
@@ -151,8 +165,17 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/admin/update-password/{user}', [AdminController::class, 'updatePassword'])
         ->name('admin.passUpdate');
 
+    Route::get('/admin/request-of-transfers', [AdminController::class, 'showRequest'])->name('admin.request');
+
+    Route::get('/admin/approval-of-transfers', [AdminController::class, 'showApproval'])->name('admin.showApproval');
+
+    Route::get('/admin/approval-of-transfers/{user}', [AdminController::class, 'approvedApproval'])->name('admin.approved');
+
+    Route::get('/admin-request', [AdminController::class, 'goToRequest'])->name('admin.showRequest');
+
+    Route::post('/admin-request', [TransferRequestController::class, 'store'])->name('admin.requestTransfer');
     
-    
+    Route::get('/admin/request-of-transfers/user/{user}', [AdminController::class, 'approvedRequest'])->name('admin.requestApproved');
 });
 
 
@@ -186,6 +209,9 @@ Route::middleware(['auth', 'staff'])->group(function () {
     Route::put('/staff/update-password/{user}', [StaffController::class, 'updatePassword'])
         ->name('staff.passUpdate');
 
+        Route::get('/staff-request', [StaffController::class, 'goToRequest'])->name('staff.showRequest');
+
+        Route::post('/staff-request', [TransferRequestController::class, 'store'])->name('staff.requestTransfer');
 
 });
 
@@ -207,6 +233,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/attachment/delete/{file}', [Attachments::class, 'destroy'])->name('file.destroy');
 
     Route::delete('/user/delete/{user}', [AuthController::class , 'destroy'])->name('user.destroy');
+
+    Route::delete('/transfer-request/delete/{user}', [TransferRequestController::class , 'destroy'])->name('request.destroy');
+
+    
+    Route::get('/forgot-password', [AuthController::class , "goToForgotPassword"])->name('user.resetPassword');
 
 });
 

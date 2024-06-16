@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="min-h-[100vh] w-full flex items-start">
-        @include('staff.staff_sidebar')
+        @include('superadmin.sa_sidebar')
 
         <div class="flex-grow px-10 pt-8 h-auto border-solid">
 
@@ -34,6 +34,7 @@
                     </label>
                     <input type="password" name="new_password_confirmation" id="new_password_confirmation" placeholder="Confirm new password" class="py-3 px-6 rounded-lg shadow-xl bg-slate-100 border-black outline-green-500">
                 </div>
+                <a href="{{route('user.resetPassword')}}" class="text-blue-600 text-center text-lg hover:underline">Forgot password?</a>
                <button type="submit" class="py-3 text-xl px-7  border-r-full border-none bg-green-500 hover:bg-green-600 text-white rounded-lg ">POST</button>
             </form>
                 @if ($errors->any())

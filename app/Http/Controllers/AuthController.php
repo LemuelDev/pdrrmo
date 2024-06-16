@@ -145,7 +145,15 @@ class AuthController extends Controller
 
     public function confirmation() {
         return view('shared.confirmation');
-       
+    }
+
+    public function goToForgotPassword() {
+        auth()->logout();
+
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+
+        return view('shared.forgot-password');
     }
     
 }

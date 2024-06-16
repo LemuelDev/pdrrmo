@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Mail\ApproveEmail;
 use App\Models\Attachment;
+use App\Models\TransferOfRequest;
+use App\Models\TransferRequest;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
@@ -258,7 +260,7 @@ class AdminController extends Controller
             ]);
         }
 
-        $staffs = UserProfile::orderBy('created_at', 'asc')
+        $staffs = UserProfile::orderBy('created_at', 'desc')
         ->where('user_type', 'staff')
         ->where('municipality', auth()->user()->userProfile->municipality)
         ->where(function ($query) {
@@ -400,5 +402,71 @@ class AdminController extends Controller
     
         // Redirect back with a success message
         return redirect()->route('admin.profile')->with('success', 'Password successfully updated.');
+    }
+
+    public function showRequest() {
+
+        $staffs = TransferOfRequest::orderBy('created_at', 'desc')
+        ->where('municipality_admin', 'pending')
+        ->where('current_municipality', auth()->user()->userProfile->municipality);
+
+        if (request()->has('search')) {
+            $searchQuery = request()->get('search');
+            $staffs->where('name', 'like', '%' . $searchQuery . '%');
+        }
+
+        return view("admin.adminTransferRequest", [
+            "staffs" => $staffs->paginate(8)
+        ]);
+    }
+
+    public function approvedApproval(TransferOfRequest $user) {
+
+        $user->transfer_admin = 'approved';
+        $user->save();
+
+        $new_municipality = $user->requested_municipality;
+
+        $user->userProfile()->update([
+            "municipality" => $new_municipality
+        ]);
+        
+        $user->delete();
+
+        return redirect()->route('admin.showApproval')->with('success', "The request is approved!");
+
+    }
+
+
+    public function showApproval() {
+        $staffs = TransferOfRequest::orderBy('created_at', 'desc')
+        ->where('transfer_admin', 'pending')
+        ->where('userprofile_id', '!=', auth()->user()->userProfile->id)
+        ->where('municipality_admin', '!=', 'pending')
+        ->where('requested_municipality', auth()->user()->userProfile->municipality);
+
+        if (request()->has('search')) {
+            $searchQuery = request()->get('search');
+            $staffs->where('name', 'like', '%' . $searchQuery . '%');
+        }
+
+        return view("admin.adminTransferRequest", [
+            "staffs" => $staffs->paginate(8)
+        ]);
+    }
+
+    public function approvedRequest(TransferOfRequest $user) {
+        
+        $user->update([
+            "municipality_admin" => "approved"
+        ]);
+
+        return redirect()->route('admin.request')->with('success', "The request is approved!");
+
+    }
+
+    public function goToRequest() {
+
+        return view('admin.adminRequest');
     }
 }

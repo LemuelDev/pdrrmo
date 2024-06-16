@@ -29,6 +29,11 @@ class UserProfile extends Model
         return $this->hasMany(Attachment::class, 'userprofile_id');
     }
 
+    public function transferRequest()
+    {
+        return $this->hasMany(TransferOfRequest::class, 'userprofile_id');
+    }
+
     public function getImageUrl(){
         
         if ($this->profile !== null){

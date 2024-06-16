@@ -68,8 +68,7 @@
                              </select>
                              
                         </div>
-                        <div class="flex justify-around gap-4">
-                            <a href="" class="pt-3 text-lg px-7 mt-10  text-center border-r-full border-none bg-purple-500 hover:bg-purple-600 text-white rounded-lg max-h-[55px] max-w-[280px]">Transfer of Municipality</a>
+                        <div class="flex justify-start gap-4">
                             <a href={{ route('sa.password', ['user' => auth()->user()->id]) }} class="pt-3 text-lg px-7 mt-10 text-center border-r-full border-none bg-gray-600 hover:bg-gray-700 text-white rounded-lg max-h-[55px] max-w-[220px]">Update Password</a>
                         </div>
                         <button type="submit" class="py-3 text-xl px-7 mt-11 border-r-full border-none bg-green-500 hover:bg-green-600 text-white rounded-lg max-h-[50px] max-w-[200px]">UPDATE</button>

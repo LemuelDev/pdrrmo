@@ -166,15 +166,11 @@
                         });
                     });
                 }
-
+                    
                 // Apply the modal handling function to RESTRICTIONS and PER-MUNICIPALITY
                 handleModal("restrictionsDropdown", "restrictionsModal", "closeRestrictionsModal", "restrictionsList");
                 handleModal("municipalityDropdown", "municipalityModal", "closeModal", "municipalitiesList");
             });
-
-
-
-
             </script>
 
             {{-- tables --}}

@@ -5,6 +5,7 @@
             <a href="{{route('admin.staff')}}" class="{{ request()->route()->getName() === 'admin.staff'? 'text-white text-xl p-3 font-bold bg-blue-700' : 'text-white text-xl pt-3 font-bold hover:no-underline no-underline' }}">Staff</a>
             <a href="{{route('admin.attachments')}}" class="{{  request()->route()->getName() === 'admin.attachments' ? 'text-white text-xl p-3 font-bold bg-blue-700  hover:no-underline' : 'text-white text-xl pt-3 font-bold hover:no-underline' }}">Attachments</a>
             <a href="{{route('admin.approval')}}" class="{{  request()->route()->getName() === 'admin.approval' ? 'text-white text-xl p-3 font-bold bg-blue-700  hover:no-underline' : 'text-white text-xl pt-3 font-bold hover:no-underline' }}">Pending Approvals</a>
+            <a href="{{route('admin.request')}}" class="{{  request()->route()->getName() === 'admin.request' ? 'text-white text-xl p-3 py-3 font-bold bg-blue-700  hover:no-underline' : 'text-white text-xl pt-3 font-bold hover:no-underline' }}">Request of Transfers</a>
             <a href="{{route('admin.profile')}}" class="{{  request()->route()->getName() === 'admin.profile' ? 'text-white text-xl p-3 py-3 font-bold bg-blue-700  hover:no-underline' : 'text-white text-xl pt-3 font-bold hover:no-underline' }}">Profile</a>
             <form action="{{route('logout')}}" method="post">
                 @csrf
@@ -18,6 +19,7 @@
             <a href="{{route('admin.staff')}}" class="{{ request()->route()->getName() === 'admin.staff'? 'text-white text-xl p-3 font-bold bg-blue-700' : 'text-white text-xl pt-3 font-bold hover:no-underline no-underline' }}">Staff</a>
             <a href="{{route('admin.attachments')}}" class="{{  request()->route()->getName() === 'admin.attachments' ? 'text-white text-xl p-3 font-bold bg-blue-700  hover:no-underline' : 'text-white text-xl pt-3 font-bold hover:no-underline' }}">Attachments</a>
             <a href="{{route('admin.approval')}}" class="{{  request()->route()->getName() === 'admin.approval' ? 'text-white text-xl p-3 font-bold bg-blue-700  hover:no-underline' : 'text-white text-xl pt-3 font-bold hover:no-underline' }}">Pending Approvals</a>
+            <a href="{{route('admin.request')}}" class="{{  request()->route()->getName() === 'admin.request' ? 'text-white text-xl p-3 py-3 font-bold bg-blue-700  hover:no-underline' : 'text-white text-xl pt-3 font-bold hover:no-underline' }}">Request of Transfers</a>
             <a href="{{route('admin.profile')}}" class="{{  request()->route()->getName() === 'admin.profile' ? 'text-white text-xl p-3 py-3 font-bold bg-blue-700  hover:no-underline' : 'text-white text-xl pt-3 font-bold hover:no-underline' }}">Profile</a>
             <form action="{{route('logout')}}" method="post">
                 @csrf

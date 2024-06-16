@@ -183,5 +183,10 @@ class StaffController extends Controller
         // Redirect back with a success message
         return redirect()->route('staff.profile')->with('success', 'Password successfully updated.');
     }
+
+    public function goToRequest() {
+
+        return view('staff.staff_request');
+    }
     
 }

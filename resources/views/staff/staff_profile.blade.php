@@ -44,7 +44,7 @@
                          <input type="text" name="email" id="Email" placeholder="Email..."  value="{{auth()->user()->userProfile->email}}" class="py-3 px-6 rounded-lg shadow-xl bg-slate-100 border-black outline-green-500">
                         </div>
                         <div class="flex justify-around gap-4">
-                            <a href="" class="pt-3 text-lg px-7 mt-10  text-center border-r-full border-none bg-purple-500 hover:bg-purple-600 text-white rounded-lg max-h-[55px] max-w-[280px]">Transfer of Municipality</a>
+                            <a href="{{route('staff.showRequest')}}" class="pt-3 text-lg px-7 mt-10  text-center border-r-full border-none bg-purple-500 hover:bg-purple-600 text-white rounded-lg max-h-[55px] max-w-[280px]">Transfer of Municipality</a>
                             <a href={{ route('staff.password', ['user' => auth()->user()->id]) }} class="pt-3 text-lg px-7 mt-10 text-center border-r-full border-none bg-gray-600 hover:bg-gray-700 text-white rounded-lg max-h-[55px] max-w-[220px]">Update Password</a>
                         </div>
                        

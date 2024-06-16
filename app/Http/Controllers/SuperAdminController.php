@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\ApproveEmail;
 use App\Models\Attachment;
+use App\Models\TransferOfRequest;
 use App\Models\User;
 use App\Models\UserProfile;
 use Illuminate\Http\Request;
@@ -322,4 +323,65 @@ class SuperAdminController extends Controller
         // Redirect back with a success message
         return redirect()->route('sa.profile')->with('success', 'Password successfully updated.');
     }
+
+    
+    public function showRequest() {
+
+        $staffs = TransferOfRequest::orderBy('created_at', 'desc')
+        ->where('municipality_admin', 'pending');
+
+        if (request()->has('search')) {
+            $searchQuery = request()->get('search');
+            $staffs->where('name', 'like', '%' . $searchQuery . '%');
+        }
+
+        return view("superadmin.sa_transferRequest", [
+            "staffs" => $staffs->paginate(8)
+        ]);
+    }
+
+    public function approvedApproval(TransferOfRequest $user) {
+
+        $user->transfer_admin = 'approved';
+        $user->save();
+
+        $new_municipality = $user->requested_municipality;
+
+        $user->userProfile()->update([
+            "municipality" => $new_municipality
+        ]);
+        
+        $user->delete();
+
+        return redirect()->route('sa.showApproval')->with('success', "The request is approved!");
+
+    }
+
+
+    public function showApproval() {
+        $staffs = TransferOfRequest::orderBy('created_at', 'desc')
+        ->where('transfer_admin', 'pending')
+        ->where('municipality_admin', '!=', 'pending');
+
+        if (request()->has('search')) {
+            $searchQuery = request()->get('search');
+            $staffs->where('name', 'like', '%' . $searchQuery . '%');
+        }
+
+        return view("superadmin.sa_transferRequest", [
+            "staffs" => $staffs->paginate(8)
+        ]);
+    }
+
+    public function approvedRequest(TransferOfRequest $user) {
+        
+        $user->update([
+            "municipality_admin" => "approved"
+        ]);
+
+        return redirect()->route('admin.request')->with('success', "The request is approved!");
+
+    }
+
+    
 }

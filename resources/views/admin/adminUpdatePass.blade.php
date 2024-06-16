@@ -34,6 +34,7 @@
                 </label>
                 <input type="password" name="new_password_confirmation" id="new_password_confirmation" placeholder="Confirm new password" class="py-3 px-6 rounded-lg shadow-xl bg-slate-100 border-black outline-green-500">
             </div>
+            <a href="{{route('user.resetPassword')}}" class="text-blue-600 text-center text-lg hover:underline">Forgot password?</a>
            <button type="submit" class="py-3 text-xl px-7  border-r-full border-none bg-green-500 hover:bg-green-600 text-white rounded-lg ">POST</button>
         </form>
             @if ($errors->any())
@@ -48,6 +49,7 @@
             <h4 class="text-2xl font-bold pb-2">IMPORTANT THINGS TO CONSIDER:</h4>
             <p>- input your current password.</p>
             <p>- create your new password and update it.</p>
+            <p>- when you choose forgot password, you will be logout automatically and redirected to the reset password form.</p>
         </div>
     </div> 
 

@@ -12,7 +12,7 @@
            </div>
            
  <div class="py-4 pl-8 flex items-start justify-around max-w-[1100px] gap-4 ">
-        <div class="max-w-[400px]">
+        <div class="max-w-[500px]">
             <form action="{{ route('staff.passUpdate', auth()->user()->id) }}" method="post" class="grid gap-6 p-8 px-10 min-w-[400px] shadow-2xl rounded-lg" enctype="multipart/form-data">
                 @csrf
                 @method('put')
@@ -34,7 +34,8 @@
                     </label>
                     <input type="password" name="new_password_confirmation" id="new_password_confirmation" placeholder="Confirm new password" class="py-3 px-6 rounded-lg shadow-xl bg-slate-100 border-black outline-green-500">
                 </div>
-               <button type="submit" class="py-3 text-xl px-7  border-r-full border-none bg-green-500 hover:bg-green-600 text-white rounded-lg ">POST</button>
+                <a href="{{route('user.resetPassword')}}" class="text-blue-600 text-center text-lg hover:underline">Forgot password?</a>
+               <button type="submit" class="py-3 text-xl px-7  border-r-full border-none bg-green-500 hover:bg-green-600 text-white rounded-lg ">UPDATE</button>
             </form>
                 @if ($errors->any())
                 <div class="grid mt-7">
@@ -49,6 +50,7 @@
             <h4 class="text-2xl font-bold pb-2">IMPORTANT THINGS TO CONSIDER:</h4>
             <p>- input your current password.</p>
             <p>- create your new password and update it.</p>
+            <p>- when you choose forgot password, you will be logout automatically and redirected to the reset password form.</p>
         </div>
     </div> 
 
@@ -97,12 +99,7 @@
 
         </script>
     @endif
-             
-
-            {{-- footer --}}
-           {{-- <footer class="absolute bottom-3 right-3 ">
-                <h4 class="text-lg text-black font-bold ">ProjectBeta IT Solutions</h4>
-           </footer> --}}
+            
           
         </div>
 

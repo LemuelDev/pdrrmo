@@ -101,10 +101,7 @@
                 @endif
              
 
-            {{-- footer --}}
-           <footer class="absolute bottom-3 right-3 ">
-                <h4 class="text-lg text-black font-bold ">ProjectBeta IT Solutions</h4>
-           </footer>
+   
           
         </div>
     </section>
