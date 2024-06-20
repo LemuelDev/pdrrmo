@@ -1,35 +1,39 @@
 @extends('layout.adminPanel')
 
 @section('content')
-    <section class="min-h-[100vh] w-full flex items-start">
+    <section class="min-h-[100vh] flex items-start">
        
         @include('admin.adminSidebar')
         
-        <div class="flex-grow px-10 pt-8 h-auto border-solid">
+        <div class="flex-grow pt-8 h-auto px-3 2xl:max-w-[1700px] xl:max-w-[1300px] max-lg:w-full">
            
             @include('shared.navbar')
             
-            <div class="flex justify-start items-start gap-4 pt-5 pl-8">
+            <div class="pt-4 md:pl-4 flex flex-col lg:flex-row justify-start items-center gap-4 lg:gap-6 max-md:pl-0">
                 @if (request()->route()->getName() === 'admin.request')
-                <form action="{{route('admin.request')}}" method="get" class="flex items-center justify-start gap-4 pb-4">
-                    <h5>Search Request:</h5>
-                    <input type="text" name="search" id="search" placeholder="Search Here" class="px-8 py-1.5 rounded-lg border-solid border-2 border-[#363062] outline-green-500 shadow-xl">
-                    <button class="btn btn-success px-4">SEARCH</button>                       
+                <form action="{{route('admin.request')}}" method="get" class="flex items-center justify-start max-lg:justify-center gap-4 w-full lg:w-auto max-[540px]:flex-col">
+                    <h5 class="text-lg max-[540px]:text-2xl max-[540px]:font-bold ">Search Request:</h5>
+                    <input type="text" name="search" id="search" placeholder="Search Here"  class="px-8 py-1.5  max-[540px]:max-w-[390px] rounded-lg border-2 border-gray-700 outline-none shadow-xl flex-grow">
+                    <button  class="text-white bg-green-500 rounded-lg hover:bg-green-700 px-4 py-2 max-[540px]:min-w-[200px] ">SEARCH</button>                       
                  </form>
+                 
                 @else
-                <form action="{{route('admin.showApproval')}}" method="get" class="flex items-center justify-start gap-4 pb-4">
-                    <h5>Search Request:</h5>
-                    <input type="text" name="search" id="search" placeholder="Search Here" class="px-8 py-1.5 rounded-lg border-solid border-2 border-[#363062] outline-green-500 shadow-xl">
-                    <button class="btn btn-success px-4">SEARCH</button>                       
+                <form action="{{route('admin.showApproval')}}" method="get" class="flex items-center justify-start max-lg:justify-center gap-4 w-full lg:w-auto max-[540px]:flex-col">
+                    <h5 class="text-lg max-[540px]:text-2xl max-[540px]:font-bold ">Search Request:</h5>
+                    <input type="text" name="search" id="search" placeholder="Search Here"  class="px-8 py-1.5  max-[540px]:max-w-[390px] rounded-lg border-2 border-gray-700 outline-none shadow-xl flex-grow">
+                    <button  class="text-white bg-green-500 rounded-lg hover:bg-green-700 px-4 py-2 max-[540px]:min-w-[200px] ">SEARCH</button>                       
                  </form>
                 @endif
-                 <a href="{{route('admin.request')}}" class="py-2 px-6 rounded-md bg-violet-500 hover:bg-violet-700 text-white text-center hover:no-underline">REQUEST OF TRANSFERS</a>
-                 <a href="{{route('admin.showApproval')}}" class="py-2 px-6 rounded-md bg-red-400 hover:bg-red-500 text-white  text-center hover:no-underline">APPROVAL OF TRANSFERS</a>
+                <div class="flex lg:flex-row justify-center gap-4 items-center lg:mt-0 max-[540px]:grid max-[540px]:grid-cols-2">
+                    <a href="{{route('admin.request')}}" class="py-2 px-6 rounded-md bg-violet-500 hover:bg-violet-700 text-white text-center hover:no-underline max-[540px]:max-w-[250px]">REQUEST OF TRANSFERS</a>
+                    <a href="{{route('admin.showApproval')}}" class="py-2 px-6 rounded-md bg-red-400 hover:bg-red-500 text-white  text-center hover:no-underline max-[540px]:max-w-[250px]">APPROVAL OF TRANSFERS</a>
+                </div>
+                
             </div>
             
 
             {{-- tables --}}
-            <div class="pt-4 px-8">
+            <div  class="pt-4 xl:px-8 max-lg:px-4 max-w-[1300px] 2xl:max-w-[1500px] max-[1450px]:max-w-[1100px] max-xl:max-w-[970px] max-lg:max-w-full max-sm:px-0">
                 @include('admin.tableTransferRequest')
             </div>
 
@@ -39,25 +43,25 @@
         @if (session()->has('success'))
                                                                      
         <!-- Modal -->
-                <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
-                    <!-- Modal Content -->
-                    <div class="bg-white rounded-lg shadow-lg p-6 mx-4 sm:mx-auto w-full sm:w-96">
-                        <!-- Modal Header -->
-                        <div class="flex justify-between items-center mb-4">
-                            <h2 class="text-lg font-semibold">TransferRequest</h2>
-                            <!-- Close Button -->
-                            <a href="#" id="close-modal" class="text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700" aria-label="Close">
-                                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                            </a>
-                        </div>
-                        <!-- Modal Body -->
-                        <div class="mb-4">
-                            <p class="text-center text-green-600">{{session('success')}} </p>
-                        </div>
-                    </div>
+        <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+            <!-- Modal Content -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mx-4 sm:mx-auto w-full sm:w-96 max-sm:w-[250px] max-sm:py-8">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-semibold">ATTACHMENT</h2>
+                    <!-- Close Button -->
+                    <a href="#" id="close-modal" class="text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700" aria-label="Close">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </a>
                 </div>
+                <!-- Modal Body -->
+                <div class="mb-4">
+                    <p class="text-center text-red-600">{{session('failed')}} </p>
+                </div>
+            </div>
+        </div>
 
                 <script>
                     // Get references to modal elements
@@ -142,6 +146,48 @@
             
             
                                 </script>
+
+                                
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const menuIcon = document.getElementById('menu-icon');
+                        const sidebar = document.getElementById('sidebar');
+                        const closeButton = document.getElementById('sidebar-close');
+
+                        // Function to toggle sidebar visibility
+                        function toggleSidebar() {
+                            sidebar.classList.toggle('-translate-x-full');
+                        }
+
+                        // Function to close the sidebar
+                        function closeSidebar() {
+                            sidebar.classList.add('-translate-x-full');
+                        }
+
+                        // Event listener for menu icon click to toggle sidebar
+                        menuIcon.addEventListener('click', function(event) {
+                            event.stopPropagation(); // Prevent click event from reaching the body
+                            toggleSidebar();
+                        });
+
+                        // Event listener for close button inside the sidebar
+                        closeButton.addEventListener('click', closeSidebar);
+
+                        // Event listener for body click to hide sidebar when clicking outside
+                        document.body.addEventListener('click', function(event) {
+                            // If the click is outside the sidebar and menu icon, hide the sidebar
+                            if (!sidebar.contains(event.target) && !menuIcon.contains(event.target)) {
+                                closeSidebar();
+                            }
+                        });
+
+                        // Prevent clicks inside the sidebar from propagating to the body
+                        sidebar.addEventListener('click', function(event) {
+                            event.stopPropagation();
+                        });
+                    });
+
+                </script>
     </section>
 
 @endsection

@@ -1,25 +1,26 @@
 @extends('layout.superadminPanel')
 
 @section('content')
-    <section class="min-h-[100vh] w-full flex items-start">
+    <section class="min-h-[100vh] flex items-start">
        
         @include('superadmin.sa_sidebar')
         
-        <div class="flex-grow px-10 pt-8 h-auto border-solid">
+        <div class="flex-grow pt-8 h-auto px-3 2xl:max-w-[1700px] xl:max-w-[1300px] max-lg:w-full">
            
                   
             @include('shared.navbar')
 
-            <div class="flex justify-start items-start gap-4 pt-5 pl-8"">
-                <form action="{{route('sa.admins')}}" method="get" class="flex items-center justify-start gap-4 pb-4">
-                    <h5>Search Admin:</h5>
-                    <input type="text" name="search" id="search" placeholder="Search Here" class="px-8 py-1.5 rounded-lg border-solid border-2 border-[#363062] outline-green-500 shadow-xl">
-                    <button class="btn btn-success px-4">SEARCH</button>                       
-                 </form>
+            <div class="pt-4 md:pl-4 flex flex-col lg:flex-row justify-start items-center gap-4 lg:gap-6 max-md:pl-0">
+                <form action="{{ route('sa.admins') }}" method="GET" class="flex items-center justify-start max-lg:justify-center max-lg:max-w-[700px] max-lg:mx-auto gap-4 max-sm:w-full lg:w-auto max-[540px]:flex-col">
+                    <h5 class="text-lg max-[540px]:text-2xl max-[540px]:font-bold ">Search Admin:</h5>
+                    <input type="text" name="search" id="search" placeholder="Search Here" class="px-8 py-1.5  max-[540px]:max-w-[390px] rounded-lg border-2 border-gray-700 outline-none shadow-xl flex-grow">
+                    <button type="submit" class="text-white bg-green-500 rounded-lg hover:bg-green-700 px-4 py-2 max-[540px]:min-w-[250px] ">SEARCH</button>
+                </form>
                                 <!-- Button to trigger modal -->
-                <button id="municipalityDropdown" class="no-underline text-white text py-2 px-3 rounded-lg bg-violet-500 hover:no-underline hover:bg-violet-700">
-                    PER-MUNICIPALITY
-                 </button>
+                   
+                            <button id="municipalityDropdown" class="no-underline text-white text py-2 px-3 rounded-lg bg-violet-500 hover:no-underline hover:bg-violet-700 max-lg:w-[400px] max-[450px]:w-[250px]">
+                                PER-MUNICIPALITY
+                            </button>
                 
                             <!-- Modal structure -->
                  <div id="municipalityModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
@@ -87,10 +88,9 @@
             
 
             {{-- tables --}}
-            <div class="pt-4 px-8">
+            <div class="pt-4 xl:px-8 max-lg:px-4 max-w-[1300px] 2xl:max-w-[1500px] max-[1450px]:max-w-[1100px] max-xl:max-w-[970px] max-lg:max-w-full max-sm:px-0">
                 @include('admin.tableAdmins')
             </div>
-            
             
           
         </div>
@@ -200,6 +200,47 @@
                                     });
             
             
+                                </script>
+                                
+                                 <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        const menuIcon = document.getElementById('menu-icon');
+                                        const sidebar = document.getElementById('sidebar');
+                                        const closeButton = document.getElementById('sidebar-close');
+    
+                                        // Function to toggle sidebar visibility
+                                        function toggleSidebar() {
+                                            sidebar.classList.toggle('-translate-x-full');
+                                        }
+    
+                                        // Function to close the sidebar
+                                        function closeSidebar() {
+                                            sidebar.classList.add('-translate-x-full');
+                                        }
+    
+                                        // Event listener for menu icon click to toggle sidebar
+                                        menuIcon.addEventListener('click', function(event) {
+                                            event.stopPropagation(); // Prevent click event from reaching the body
+                                            toggleSidebar();
+                                        });
+    
+                                        // Event listener for close button inside the sidebar
+                                        closeButton.addEventListener('click', closeSidebar);
+    
+                                        // Event listener for body click to hide sidebar when clicking outside
+                                        document.body.addEventListener('click', function(event) {
+                                            // If the click is outside the sidebar and menu icon, hide the sidebar
+                                            if (!sidebar.contains(event.target) && !menuIcon.contains(event.target)) {
+                                                closeSidebar();
+                                            }
+                                        });
+    
+                                        // Prevent clicks inside the sidebar from propagating to the body
+                                        sidebar.addEventListener('click', function(event) {
+                                            event.stopPropagation();
+                                        });
+                                    });
+    
                                 </script>
     </section>
 

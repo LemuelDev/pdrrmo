@@ -4,17 +4,18 @@
     <section class="min-h-[100vh] w-full flex items-start">
         @include('admin.adminSidebar')
         
-        <div class="flex-grow px-10 pt-8 h-auto border-solid">
+        <div class="flex-grow px-4 pt-8 h-auto border-solid">
                  
             @include('shared.navbar')
 
-           <div class="pt-8 pl-8">
-                <h4 class="text-2xl font-bold">EDIT ADMIN:</h4>
+           
+            <div class="pt-16 pl-8 max-md:pt-8 max-md:pl-0">
+                <h4 class="text-2xl font-bold max-md:text-center">EDIT ADMIN:</h4>
            </div>
 
            
- <div class="pt-4 pl-8">
-    <form action="{{route('admin.update-admin', $admin->userProfile->id)}}" method="post" class="grid grid-cols-2 gap-8 px-12 pt-8">
+ <div class="pt-4 pl-8 max-w-[1200px] gap-4 max-md:p-4 max-md:flex-col-reverse max-md:px-0">
+    <form action="{{route('admin.update-admin', $admin->userProfile->id)}}" method="post" class="grid grid-cols-2 gap-8 px-12 pt-8  max-lg:px-6 max-md:px-4 max-sm:grid-cols-1 max-sm:max-w-[500px] max-sm:mx-auto">
         @csrf
         @method('put')
         <div class="grid">
@@ -57,29 +58,8 @@
                     <option value="pending" {{ $admin->userProfile->isPending == 'pending' ? 'selected' : '' }}>pending</option>
                 </select>
         </div>
-       {{-- <div class="grid">
-            <label for="municipality" class="text-lg font-bold pb-4">
-                MUNICIPALITY:
-            </label>
-            <select name="municipality" id="municipality"  aria-placeholder="Municipality" class="py-3 px-6 rounded-lg shadow-xl bg-slate-100 border-black outline-green-500">
-                <option value="sta_cruz" {{ $admin->userProfile->municipality == 'sta_cruz' ? 'selected' : '' }}>STA CRUZ</option>
-                <option value="candelaria" {{ $admin->userProfile->municipality == 'candelaria' ? 'selected' : '' }}>CANDELARIA</option>
-                <option value="masinloc" {{ $admin->userProfile->municipality == 'masinloc' ? 'selected' : '' }}>MASINLOC</option>
-                <option value="palauig" {{ $admin->userProfile->municipality == 'palauig' ? 'selected' : '' }}>PALAUIG</option>
-                <option value="iba" {{ $admin->userProfile->municipality == 'iba' ? 'selected' : '' }}>IBA</option>
-                <option value="botolan" {{ $admin->userProfile->municipality == 'botolan' ? 'selected' : '' }}>BOTOLAN</option>
-                <option value="cabangan" {{ $admin->userProfile->municipality == 'cabangan' ? 'selected' : '' }}>CABANGAN</option>
-                <option value="san_felipe" {{ $admin->userProfile->municipality == 'san_felipe' ? 'selected' : '' }}>SAN FELIPE</option>
-                <option value="san_marcelino" {{ $admin->userProfile->municipality == 'san_marcelino' ? 'selected' : '' }}>SAN MARCELINO</option>
-                <option value="san_narcisco" {{ $admin->userProfile->municipality == 'san_narcisco' ? 'selected' : '' }}>SAN NARCISO</option>
-                <option value="san_antonio" {{ $admin->userProfile->municipality == 'san_antonio' ? 'selected' : '' }}>SAN ANTONIO</option>
-                <option value="castillejos" {{ $admin->userProfile->municipality == 'castillejos' ? 'selected' : '' }}>CASTILLEJOS</option>
-                <option value="subic" {{ $admin->userProfile->municipality == 'subic' ? 'selected' : '' }}>SUBIC</option>
-                <option value="pdrrmo" {{ $admin->userProfile->municipality == 'pdrrmo' ? 'selected' : '' }}>PDRRMO</option>
-            </select>
-            
-       </div> --}}
-       <button type="submit" class="py-3 text-xl px-7 mt-11  border-r-full border-none bg-green-500 hover:bg-green-600 text-white rounded-lg max-h-[50px] max-w-[200px]">UPDATE</button>
+       
+       <button type="submit" class="py-3 text-xl px-7 mt-11  border-r-full border-none bg-green-500 hover:bg-green-600 text-white rounded-lg max-h-[50px] max-w-[200px] max-sm:mx-auto max-sm:px-12">UPDATE</button>
         </form>
         @if ($errors->any())
         
@@ -91,11 +71,49 @@
 
         @endif
 </div> 
-             
 
-          
-          
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const menuIcon = document.getElementById('menu-icon');
+                const sidebar = document.getElementById('sidebar');
+                const closeButton = document.getElementById('sidebar-close');
+
+                // Function to toggle sidebar visibility
+                function toggleSidebar() {
+                    sidebar.classList.toggle('-translate-x-full');
+                }
+
+                // Function to close the sidebar
+                function closeSidebar() {
+                    sidebar.classList.add('-translate-x-full');
+                }
+
+                // Event listener for menu icon click to toggle sidebar
+                menuIcon.addEventListener('click', function(event) {
+                    event.stopPropagation(); // Prevent click event from reaching the body
+                    toggleSidebar();
+                });
+
+                // Event listener for close button inside the sidebar
+                closeButton.addEventListener('click', closeSidebar);
+
+                // Event listener for body click to hide sidebar when clicking outside
+                document.body.addEventListener('click', function(event) {
+                    // If the click is outside the sidebar and menu icon, hide the sidebar
+                    if (!sidebar.contains(event.target) && !menuIcon.contains(event.target)) {
+                        closeSidebar();
+                    }
+                });
+
+                // Prevent clicks inside the sidebar from propagating to the body
+                sidebar.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                });
+            });
+
+        </script>
     </section>
 
 @endsection

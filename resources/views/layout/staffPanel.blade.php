@@ -15,11 +15,12 @@
             font-family: 'Poppins', 'san-serif';
         }
     </style>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </head>
 <body >
     
-    @yield('nav')
+    
     @yield('content')
-    @yield('footer')
+    
 </body>
 </html>

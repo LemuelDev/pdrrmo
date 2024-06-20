@@ -1,21 +1,20 @@
 @extends('layout.staffPanel')
 
 @section('content')
-    <section class="min-h-[100vh] w-full flex items-start">
+    <section class="min-h-[100vh] flex items-start ">
        
         @include('staff.staff_sidebar')
         
-        <div class="flex-grow px-10 pt-8 h-auto border-solid">
+        <div class="flex-grow pt-8 h-auto px-3 2xl:max-w-[1700px] xl:max-w-[1300px] max-lg:w-full">
 
                 
             @include('shared.navbar')
             
-             {{-- search attachments  --}}
-            {{-- search attachments  --}}
-            @if ($editing ?? false)
+           
+    @if ($editing ?? false)
                 
-    <div class="pt-4 pl-8">
-        <form action="{{route('file.update', $file->id)}}" method="post" class="grid grid-cols-2 gap-8 px-12 pt-8">
+    <div class="pt-4 pl-8 max-w-[1200px] gap-4 max-md:p-4 max-md:flex-col-reverse max-md:px-0 max-lg:max-w-full max-lg:pl-4">
+        <form action="{{route('file.update', $file->id)}}" method="post" class="grid grid-cols-2 gap-8 px-12 pt-8  max-lg:px-6 max-md:px-4 max-sm:grid-cols-1 max-sm:max-w-[500px] max-sm:mx-auto">
             @csrf
             @method('put')
             <div class="grid">
@@ -59,7 +58,7 @@
                         <option value="Only_Me" {{$file->restrictions === 'Only_Me' ? 'selected' : ''}}>Only Me</option>
                     </select>
                 </div>
-                <button type="submit" class="py-3 text-xl px-7  border-r-full border-none bg-green-500 hover:bg-green-600 text-white rounded-lg max-h-[50px] max-w-[200px]">UPDATE</button>
+                <button type="submit" class="py-3 text-xl px-7  border-r-full border-none bg-green-500 hover:bg-green-600 text-white rounded-lg max-h-[50px] max-w-[200px] max-sm:mx-auto max-sm:px-12">UPDATE</button>
             </form>
                 @if ($errors->any())
                 
@@ -70,29 +69,35 @@
                 </div>
                 @endif
         </div> 
-            @else
-            <div class="flex justify-start items-center gap-4 pt-5 pl-8">
+    @else
+            <div class="pt-4 md:pl-4 flex flex-col lg:flex-row justify-start items-center  gap-4 lg:gap-6 max-md:pl-0">
                 <form action="{{ 
                 request()->route()->getName() === 'staff.attachments' ? route('staff.attachments') :
                 (request()->route()->getName() === 'staff.municipality' ? route('staff.municipality') :
                 (request()->route()->getName() === 'staff.search' ? route('staff.search') :
                 (request()->route()->getName() === 'staff.public' ? route('staff.public') :
                 route('staff.only-me'))))
-                }}" method="GET" class="flex items-center justify-start gap-4">
-                    <h5 class="text-lg">Search Attachment:</h5>
-                    <input type="text" name="search" id="search" placeholder="Search Here" class="px-8 py-1.5 rounded-lg border-solid border-2 border-[#363062] outline-green-500 shadow-xl">
-                    <button type="submit" class="text-white bg-green-500 rounded-lg border-none hover:bg-green-700 px-4 py-2">SEARCH</button>
+                }}" method="GET" class="flex items-center justify-start gap-4 w-full max-lg:justify-center lg:w-auto max-[540px]:flex-col">
+                    <h5 class="text-lg max-[540px]:text-2xl max-[540px]:font-bold ">Search Attachment:</h5>
+                    <input type="text" name="search" id="search" placeholder="Search Here" class="px-8 py-1.5  max-[540px]:max-w-[390px] rounded-lg border-solid border-2 border-[#363062] outline-green-500 shadow-xl">
+                    <button type="submit" class="text-white bg-green-500 rounded-lg border-none hover:bg-green-700 px-4 py-2 max-[540px]:min-w-[200px] ">SEARCH</button>
                 </form>
 
-                <a href="{{ route('staff.create') }}" class="no-underline text-white text py-2 px-3 rounded-lg bg-blue-500 hover:no-underline hover:bg-blue-700">CREATE NEW FILE</a>
-                            <!-- Button to trigger the RESTRICTIONS modal -->
-                <button id="restrictionsDropdown" class="no-underline text-white text py-2 px-3 rounded-lg bg-violet-500 hover:no-underline hover:bg-violet-700">
-                    RESTRICTIONS
-                </button>
+                <div class="flex lg:flex-row justify-center gap-4 items-center max-lg:justify-start lg:mt-0 max-[540px]:grid max-[540px]:grid-cols-2">
+                    <a href="{{ route('staff.create') }}" class="text-white text-center py-2 px-2 rounded-lg bg-blue-500 hover:bg-blue-700 w-full hover:no-underline lg:w-auto max-lg:min-w-[180px] md:max-w-full">
+                        CREATE NEW FILE
+                    </a>
+                    <button id="restrictionsDropdown" class="text-white py-2 px-2 rounded-lg bg-violet-500 hover:bg-violet-700 w-full lg:w-auto  md:max-w-full">
+                        RESTRICTIONS
+                    </button>
+                    <button id="municipalityDropdown" class="text-white py-2 px-2 rounded-lg bg-violet-500 hover:bg-violet-700 w-full max-[540px]:col-span-2  lg:w-auto max-lg:min-w-[180px]  md:max-w-full ">
+                        MUNICIPALITY
+                    </button>
+                </div>
 
                 <!-- Modal structure for RESTRICTIONS -->
                 <div id="restrictionsModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
-                    <div class="bg-white rounded-lg p-4 shadow-lg w-[400px ]">
+                    <div class="bg-white rounded-lg p-4 shadow-lg w-[400px]">
                         <h3 class="text-lg font-semibold text-center py-4">Select Restriction</h3>
                         <ul id="restrictionsList" class="grid grid-cols-2 gap-8 px-4">
                             <li><a href="{{ route('staff.public') }}" class="rounded-lg block px-4 py-2 text-black hover:bg-gray-200 hover:no-underline hover:text-blue-700 ">Public</a></li>
@@ -104,18 +109,13 @@
                     </div>
                 </div>
 
-                                <!-- Button to trigger modal -->
-                <button id="municipalityDropdown" class="no-underline text-white text py-2 px-3 rounded-lg bg-violet-500 hover:no-underline hover:bg-violet-700">
-                    PER-MUNICIPALITY
-                </button>
-
                             <!-- Modal structure -->
                 <div id="municipalityModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
                     <div class="bg-white rounded-lg p-4 shadow-lg" style="width: 650px;">
-                        <h3 class="text-lg font-semibold py-2 text-center">Select Municipality</h3>
+                        <h3 class="text-lg font-semibold py-2 text-center">Select Municipality(EVERYONE)</h3>
                         <!-- Create a grid with 3 columns -->
                         <div class="">
-                            <ul id="municipalitiesList" class="grid grid-cols-3 gap-4">
+                            <ul id="municipalitiesList" class="grid grid-cols-3 gap-4 max-[540px]:grid-cols-2">
                                 <li><a href="{{ route('staff.search', 'sta_cruz') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700 ">STACRUZ</a></li>
                                 <li><a href="{{ route('staff.search', 'candelaria') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">CANDELARIA</a></li>
                                 <li><a href="{{ route('staff.search', 'masinloc') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">MASINLOC</a></li>
@@ -132,10 +132,9 @@
                                 <li><a href="{{ route('staff.search', 'pdrrmo') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">PDRRMO</a></li>
                             </ul>
                         </div>
-                        <button id="closeModal" class="mt-4 py-2 px-3 bg-red-500 text-white rounded">Close</button>
+                        <button id="closeModal" class="mt-4 py-2 px-3 bg-red-500 text-white rounded ">Close</button>
                     </div>
                 </div>
-
 
             </div>
             
@@ -173,10 +172,11 @@
             });
             </script>
 
-            {{-- tables --}}
-            <div class="pt-4 px-8">
-                @include('admin.tableAttachments')
-            </div>
+        
+                 {{-- tables --}}
+                 <div class="pt-4 xl:px-8 max-lg:px-4 max-w-[1300px] 2xl:max-w-[1500px] max-[1450px]:max-w-[1100px] max-xl:max-w-[970px] max-lg:max-w-full max-sm:px-0">
+                    @include('admin.tableAttachments')
+                </div>
 
             
             @if (session()->has('failed'))
@@ -184,7 +184,7 @@
             <!-- Modal -->
                     <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
                         <!-- Modal Content -->
-                        <div class="bg-white rounded-lg shadow-lg p-6 mx-4 sm:mx-auto w-full sm:w-96">
+                        <div class="bg-white rounded-lg shadow-lg p-6 mx-4 sm:mx-auto w-full sm:w-96 max-sm:max-w-[250px] max-sm:py-8">
                             <!-- Modal Header -->
                             <div class="flex justify-between items-center mb-4">
                                 <h2 class="text-lg font-semibold">ATTACHMENT</h2>
@@ -336,6 +336,47 @@
                 });
                 });
 
+
+            </script>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const menuIcon = document.getElementById('menu-icon');
+                    const sidebar = document.getElementById('sidebar');
+                    const closeButton = document.getElementById('sidebar-close');
+
+                    // Function to toggle sidebar visibility
+                    function toggleSidebar() {
+                        sidebar.classList.toggle('-translate-x-full');
+                    }
+
+                    // Function to close the sidebar
+                    function closeSidebar() {
+                        sidebar.classList.add('-translate-x-full');
+                    }
+
+                    // Event listener for menu icon click to toggle sidebar
+                    menuIcon.addEventListener('click', function(event) {
+                        event.stopPropagation(); // Prevent click event from reaching the body
+                        toggleSidebar();
+                    });
+
+                    // Event listener for close button inside the sidebar
+                    closeButton.addEventListener('click', closeSidebar);
+
+                    // Event listener for body click to hide sidebar when clicking outside
+                    document.body.addEventListener('click', function(event) {
+                        // If the click is outside the sidebar and menu icon, hide the sidebar
+                        if (!sidebar.contains(event.target) && !menuIcon.contains(event.target)) {
+                            closeSidebar();
+                        }
+                    });
+
+                    // Prevent clicks inside the sidebar from propagating to the body
+                    sidebar.addEventListener('click', function(event) {
+                        event.stopPropagation();
+                    });
+                });
 
             </script>
 

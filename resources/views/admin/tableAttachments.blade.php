@@ -1,7 +1,8 @@
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
- 
+ <div class="table-responsive">
+    
  <table class="table table-striped">
     <thead class="thead-dark">
         <tr>
@@ -46,9 +47,12 @@
       
     </tbody>
 </table>
+ </div>
 
 
-{{$files->links()}}
+<div class="py-3">
+    {{$files->links()}}
+</div>
     
 
 

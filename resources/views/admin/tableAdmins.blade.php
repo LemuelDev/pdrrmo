@@ -1,7 +1,8 @@
 
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
-        <!-- Example Bootstrap table -->
+        <div class="table-responsive">
+               
         <table class="table table-striped">
             <thead class="thead-dark">
             <tr>
@@ -44,6 +45,9 @@
            @endforelse
             
         </table>
+        </div>
 
-        {{$admins->links()}}
+        <div class="py-3">
+            {{$admins->links()}}
+        </div>
 

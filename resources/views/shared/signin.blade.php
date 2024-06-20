@@ -2,11 +2,11 @@
 
 @section('content')
 <section class="flex items-center justify-center w-full h-full py-4 ">
-    <div class="grid grid-cols-1 md:grid-cols-2  max-w-[1100px]  h-auto m-auto p-6 pt-14  ">
-        <div class="text-center p-7 bg-[#363062] shadow-2xl rounded-xl">
+    <div class="grid grid-cols-1 md:grid-cols-2  max-w-[1100px]  h-auto m-auto p-6 pt-14 max-md:pt-24 max-sm:pt-16  ">
+        <div class="text-center p-7 bg-[#363062] shadow-2xl rounded-xl max-md:px-4">
             <h4 class="text-4xl font-bold pt-44 text-white max-md:pt-4 leading-[3rem]">Provincial Disaster and <br> Risk Reduction Management Office ZAMBALES</h4>
         </div>
-        <form action="{{ route('users.store') }}" method="POST" class="grid content-center gap-5 py-8 px-12 shadow-2xl rounded-2xl">
+        <form action="{{ route('users.store') }}" method="POST" class="grid content-center gap-5 py-8 px-12 shadow-2xl rounded-2xl max-md:px-6 max-md:py-6">
             @csrf
             <h4 class="text-center text-black py-4 text-3xl font-bold">CREATE AN ACCOUNT</h4>
             <input type="text" name="name" id="name" placeholder="Enter your name..." class="py-3 px-6 bor-r-8 bg-slate-100 border-black outline-green-500">

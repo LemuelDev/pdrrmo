@@ -252,8 +252,6 @@ class SuperAdminController extends Controller
         $validated = request()->validate([
             "name" => "required|min:5|max:40",
             "email" => "required|email|unique:userprofiles,email," . $profileId,
-            "username" => "required|min:5|max:40",
-            "municipality" => "required",
             "image" => "nullable|image"
         ]);
         
@@ -266,14 +264,11 @@ class SuperAdminController extends Controller
             }
         }
 
-        $sa->update([
-            'username' => $validated['username'],
-        ]);
+      
 
         $sa->userProfile()->update([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'municipality' => $validated['municipality'],
             'profile' => isset($validated['image']) ? $validated['image'] : $sa->userProfile->profile, 
         ]);
         

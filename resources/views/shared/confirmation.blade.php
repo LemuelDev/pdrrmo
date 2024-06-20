@@ -18,10 +18,10 @@
 <body>
 
 
-    <section class="flex items-center justify-center w-full h-full py-8 ">
-        <div class="grid grid-cols-1 md:grid-cols-2 content-center gap-8 max-w-[950px] mt-6 h-[650px] m-auto p-6 pt-28">
-            <div class="text-center pt-8">
-                <h1 class="text-3xl font-bold mb-4 leading-[2.5rem]">Your Registration as Staff  <br> is waiting for the Admin Approval!</h1>
+    <section class="flex items-center justify-center w-full h-full py-8 max-sm:py-4 max-sm:px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 content-center gap-8 max-w-[950px] mt-6 h-[650px] m-auto p-6 pt-28 max-sm:pt-16 max-sm:mt-0 max-sm:px-3">
+            <div class="text-center pt-8 max-sm:pt-0">
+                <h1 class="text-3xl font-bold mb-4 leading-[2.5rem] max-sm:text-2xl">Your Registration as Staff  <br> is waiting for the Admin Approval!</h1>
                 <p class="mb-2">We will notify you with your registered email in a minute.</p>
                 @if (session()->has('email'))
                 <p>Your Email: <span class="font-bold text-md">{{ session('email') }}</span></p>

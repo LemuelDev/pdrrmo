@@ -2,15 +2,15 @@
 
 @section('content')
 <section class="flex items-center justify-center w-full h-full py-4">
-    <div class="grid grid-cols-1 md:grid-cols-2  max-w-[1100px]  h-[650px] m-auto p-6 pt-36">
-        <div class="text-center p-7 bg-[#363062] shadow-2xl rounded-xl">
+    <div class="grid grid-cols-1 md:grid-cols-2  max-w-[1100px]  h-[650px] m-auto p-6 pt-36 max-md:pt-24 max-sm:pt-16">
+        <div class="text-center p-7 bg-[#363062] shadow-2xl rounded-xl max-md:px-4">
             <h4 class="text-4xl font-bold text-white pt-32 max-md:py-8 leading-[3rem]">Provincial Disaster and <br> Risk Reduction Management Office Zambales</h4>
         </div>
-        <form action="{{route('password.update')}}" method="post" class="grid content-center gap-5 py-14 px-12 shadow-2xl rounded-xl">
+        <form action="{{route('password.update')}}" method="post" class="grid content-center gap-5 py-14 px-12 shadow-2xl rounded-xl max-md:px-6 max-md:py-6">
             @csrf
             <input type="hidden" name="token_user" value="{{ $token }}">
             <h4 class="text-center text-black py-4 text-3xl font-bold">NEW PASSWORD</h4>
-            <p>Kindly enter your email and your new password.</p>
+            <p class="text-center">Kindly enter your email and your new password.</p>
             @if (session()->has('success'))
             <p class="py-2 text-center text-green-500">{{session('success')}}</p>
             @endif
