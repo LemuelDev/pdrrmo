@@ -21,10 +21,10 @@
                 @endforeach
             </div>
             @endif
-            <input type="text" name="email" id="email" placeholder="Enter email..." class="py-3 px-6 bor-r-8 bg-slate-100 border-black outline-green-500">
-            <input type="password" name="password" id="password" placeholder="Enter new password..." class="py-3 px-6 bor-r-8 bg-slate-100 border-black outline-green-500">
-            <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm password..." class="py-3 px-6 bor-r-8 bg-slate-100 border-black outline-green-500">
-            <button type="submit" class="py-3 text-xl px-7 border-r-full border-none bg-green-500 text-white rounded-lg">Update Password</button>
+            <input type="text" name="email" id="email" placeholder="Enter email..." class="py-3 w-full px-6 bor-r-8 bg-slate-100 border-black outline-green-500">
+            <input type="password" name="password" id="password" placeholder="Enter new password..." class="py-3 w-full px-6 bor-r-8 bg-slate-100 border-black outline-green-500">
+            <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm password..." class="py-3 w-full px-6 bor-r-8 bg-slate-100 border-black outline-green-500">
+            <button type="submit" class="py-3 text-xl px-7 border-r-full border-none bg-green-500 text-white rounded-lg w-full">Update Password</button>
             {{-- <p class="py-2 text-xl text-center">Don't have any account? <a href="{{route('signup')}}" class="text-xl text-blue-600">Sign Up</a></p>
             <a href="{{route('login')}}" class="text-center text-blue-600 font-bold text-lg hover:text-violet-500">LOGIN</a> --}}
            
