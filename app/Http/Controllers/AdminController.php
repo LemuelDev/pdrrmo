@@ -377,7 +377,7 @@ class AdminController extends Controller
     }
 
     public function updatePasswordForm() {
-        return view('admin.adminupdatePass');
+        return view('admin.adminUpdatePass');
     }
 
     public function updatePassword(User $user) {
