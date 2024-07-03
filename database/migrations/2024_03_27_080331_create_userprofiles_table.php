@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('municipality');
-            $table->string('user_status')->default('active');
+            $table->string('user_status')->default('disabled');
             $table->string('user_type')->default('staff');
             $table->string('isPending')->default('pending');
             $table->string('profile')->nullable();

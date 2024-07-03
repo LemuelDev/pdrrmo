@@ -1,52 +1,52 @@
-@extends('layout.superadminPanel')
+@extends('layout.adminPanel')
 
 @section('content')
-    <section class="min-h-[100vh] flex items-start">
+    <section class="min-h-[100vh]  flex items-start">
        
-        @include('superadmin.sa_sidebar')
+        @include('admin.adminSidebar')
         
         <div class="flex-grow pt-8 h-auto px-3 2xl:max-w-[1700px] xl:max-w-[1300px] max-lg:w-full">
            
-                  
             @include('shared.navbar')
-
-            <div class="pt-4 md:pl-4 flex flex-col lg:flex-row justify-start items-center gap-4 lg:gap-6 max-md:pl-0">
-                <form action="{{ route('sa.admins') }}" method="GET" class="flex items-center justify-start max-lg:justify-center max-lg:max-w-[700px] max-lg:mx-auto gap-4 max-sm:w-full lg:w-auto max-[540px]:flex-col">
+            
+            <div class="pt-4 md:pl-8 flex flex-col lg:flex-row justify-start items-center gap-4 lg:gap-6 max-md:pl-0">
+                <form action="{{ route('admin.users') }}" method="GET" class="flex items-center justify-start max-lg:justify-center max-lg:max-w-[700px] max-lg:mx-auto gap-4 max-sm:w-full lg:w-auto max-[540px]:flex-col">
                     <input type="text" name="search" id="search" placeholder="Search Here" class="px-8 py-1.5  max-[540px]:max-w-[390px] rounded-lg border-2 border-gray-700 outline-none shadow-xl flex-grow">
                     <button type="submit" class="text-white bg-green-500 rounded-lg hover:bg-green-700 px-4 py-2 max-[540px]:min-w-[250px] ">SEARCH</button>
                 </form>
                                 <!-- Button to trigger modal -->
-                   
+                    @if (auth()->user()->userProfile->municipality === 'pdrrmo')
                             <button id="municipalityDropdown" class="no-underline text-white text py-2 px-3 rounded-lg bg-violet-500 hover:no-underline hover:bg-violet-700 max-lg:w-[400px] max-[450px]:w-[250px]">
                                 PER-MUNICIPALITY
                             </button>
-                
-                            <!-- Modal structure -->
-                 <div id="municipalityModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
-                    <div class="bg-white rounded-lg p-4 shadow-lg" style="width: 650px;">
-                        <h3 class="text-lg font-semibold py-2 text-center">Select Municipality</h3>
-                        <!-- Create a grid with 3 columns -->
-                        <div class="">
-                             <ul id="municipalitiesList" class="grid grid-cols-3 gap-4">
-                                 <li><a href="{{ route('sa.specificAdmin', 'sta_cruz') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700 ">STACRUZ</a></li>
-                                 <li><a href="{{ route('sa.specificAdmin', 'candelaria') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">CANDELARIA</a></li>
-                                 <li><a href="{{ route('sa.specificAdmin', 'masinloc') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">MASINLOC</a></li>
-                                 <li><a href="{{ route('sa.specificAdmin', 'palauig') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">PALAUIG</a></li>
-                                 <li><a href="{{ route('sa.specificAdmin', 'iba') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">IBA</a></li>
-                                 <li><a href="{{ route('sa.specificAdmin', 'botolan') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">BOTOLAN</a></li>
-                                 <li><a href="{{ route('sa.specificAdmin', 'cabangan') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">CABANGAN</a></li>
-                                 <li><a href="{{ route('sa.specificAdmin', 'subic') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">SUBIC</a></li>
-                                 <li><a href="{{ route('sa.specificAdmin', 'castillejos') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">CASTILLEJOS</a></li>
-                                 <li><a href="{{ route('sa.specificAdmin', 'san_antonio') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">SAN ANTONIO</a></li>
-                                 <li><a href="{{ route('sa.specificAdmin', 'san_felipe') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">SAN FELIPE</a></li>
-                                 <li><a href="{{ route('sa.specificAdmin', 'san_marcelino') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">SAN MARCELINO</a></li>                        
-                                 <li><a href="{{ route('sa.specificAdmin', 'san_narciso') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">SAN NARCISO</a></li>
-                                 <li><a href="{{ route('sa.specificAdmin', 'pdrrmo') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">PDRRMO</a></li>
-                             </ul>
-                         </div>
-                         <button id="closeModal" class="mt-4 py-2 px-3 bg-red-500 text-white rounded">Close</button>
-                         </div>
-                     </div>
+                            
+                                        <!-- Modal structure -->
+                            <div id="municipalityModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
+                                <div class="bg-white rounded-lg p-4 shadow-lg" style="width: 650px;">
+                                    <h3 class="text-lg font-semibold py-2 text-center">Select Municipality</h3>
+                                    <!-- Create a grid with 3 columns -->
+                                    <div class="">
+                                        <ul id="municipalitiesList" class="grid grid-cols-3 gap-4">
+                                            <li><a href="{{ route('admin.specificAdmin', 'sta_cruz') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700 ">STACRUZ</a></li>
+                                            <li><a href="{{ route('admin.specificAdmin', 'candelaria') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">CANDELARIA</a></li>
+                                            <li><a href="{{ route('admin.specificAdmin', 'masinloc') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">MASINLOC</a></li>
+                                            <li><a href="{{ route('admin.specificAdmin', 'palauig') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">PALAUIG</a></li>
+                                            <li><a href="{{ route('admin.specificAdmin', 'iba') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">IBA</a></li>
+                                            <li><a href="{{ route('admin.specificAdmin', 'botolan') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">BOTOLAN</a></li>
+                                            <li><a href="{{ route('admin.specificAdmin', 'cabangan') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">CABANGAN</a></li>
+                                            <li><a href="{{ route('admin.specificAdmin', 'subic') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">SUBIC</a></li>
+                                            <li><a href="{{ route('admin.specificAdmin', 'castillejos') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">CASTILLEJOS</a></li>
+                                            <li><a href="{{ route('admin.specificAdmin', 'san_antonio') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">SAN ANTONIO</a></li>
+                                            <li><a href="{{ route('admin.specificAdmin', 'san_felipe') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">SAN FELIPE</a></li>
+                                            <li><a href="{{ route('admin.specificAdmin', 'san_marcelino') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">SAN MARCELINO</a></li>                        
+                                            <li><a href="{{ route('admin.specificAdmin', 'san_narciso') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">SAN NARCISO</a></li>
+                                            <li><a href="{{ route('admin.specificAdmin', 'pdrrmo') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">PDRRMO</a></li>
+                                        </ul>
+                                    </div>
+                                    <button id="closeModal" class="mt-4 py-2 px-3 bg-red-500 text-white rounded">Close</button>
+                                    </div>
+                                </div>
+                    @endif
                 
                     </div>
                             
@@ -88,9 +88,9 @@
 
             {{-- tables --}}
             <div class="pt-4 xl:px-8 max-lg:px-4 max-w-[1300px] 2xl:max-w-[1500px] max-[1450px]:max-w-[1100px] max-xl:max-w-[970px] max-lg:max-w-full max-sm:px-0">
-                @include('admin.tableAdmins')
+                @include('admin.tableUsers')
             </div>
-            
+
           
         </div>
 
@@ -99,7 +99,7 @@
         <!-- Modal -->
                 <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
                     <!-- Modal Content -->
-                    <div class="bg-white rounded-lg shadow-lg p-6 mx-4 sm:mx-auto w-full sm:w-96">
+                    <div class="bg-white rounded-lg shadow-lg p-6 mx-4 sm:mx-auto w-full sm:w-96 max-sm:w-[330px] max-sm:py-8">
                         <!-- Modal Header -->
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-lg font-semibold">ADMIN</h2>
@@ -197,50 +197,53 @@
                                             });
                                         });
                                     });
+
             
             
                                 </script>
-                                
-                                 <script>
-                                    document.addEventListener('DOMContentLoaded', function() {
-                                        const menuIcon = document.getElementById('menu-icon');
-                                        const sidebar = document.getElementById('sidebar');
-                                        const closeButton = document.getElementById('sidebar-close');
-    
-                                        // Function to toggle sidebar visibility
-                                        function toggleSidebar() {
-                                            sidebar.classList.toggle('-translate-x-full');
-                                        }
-    
-                                        // Function to close the sidebar
-                                        function closeSidebar() {
-                                            sidebar.classList.add('-translate-x-full');
-                                        }
-    
-                                        // Event listener for menu icon click to toggle sidebar
-                                        menuIcon.addEventListener('click', function(event) {
-                                            event.stopPropagation(); // Prevent click event from reaching the body
-                                            toggleSidebar();
-                                        });
-    
-                                        // Event listener for close button inside the sidebar
-                                        closeButton.addEventListener('click', closeSidebar);
-    
-                                        // Event listener for body click to hide sidebar when clicking outside
-                                        document.body.addEventListener('click', function(event) {
-                                            // If the click is outside the sidebar and menu icon, hide the sidebar
-                                            if (!sidebar.contains(event.target) && !menuIcon.contains(event.target)) {
-                                                closeSidebar();
-                                            }
-                                        });
-    
-                                        // Prevent clicks inside the sidebar from propagating to the body
-                                        sidebar.addEventListener('click', function(event) {
-                                            event.stopPropagation();
-                                        });
+
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const menuIcon = document.getElementById('menu-icon');
+                                    const sidebar = document.getElementById('sidebar');
+                                    const closeButton = document.getElementById('sidebar-close');
+
+                                    // Function to toggle sidebar visibility
+                                    function toggleSidebar() {
+                                        sidebar.classList.toggle('-translate-x-full');
+                                    }
+
+                                    // Function to close the sidebar
+                                    function closeSidebar() {
+                                        sidebar.classList.add('-translate-x-full');
+                                    }
+
+                                    // Event listener for menu icon click to toggle sidebar
+                                    menuIcon.addEventListener('click', function(event) {
+                                        event.stopPropagation(); // Prevent click event from reaching the body
+                                        toggleSidebar();
                                     });
-    
-                                </script>
+
+                                    // Event listener for close button inside the sidebar
+                                    closeButton.addEventListener('click', closeSidebar);
+
+                                    // Event listener for body click to hide sidebar when clicking outside
+                                    document.body.addEventListener('click', function(event) {
+                                        // If the click is outside the sidebar and menu icon, hide the sidebar
+                                        if (!sidebar.contains(event.target) && !menuIcon.contains(event.target)) {
+                                            closeSidebar();
+                                        }
+                                    });
+
+                                    // Prevent clicks inside the sidebar from propagating to the body
+                                    sidebar.addEventListener('click', function(event) {
+                                        event.stopPropagation();
+                                    });
+                                });
+
+                            </script>
+
+                            
     </section>
 
 @endsection

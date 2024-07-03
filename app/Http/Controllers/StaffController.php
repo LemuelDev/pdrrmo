@@ -19,7 +19,7 @@ class StaffController extends Controller
             ->whereHas('userProfile', function ($query) use ($municipality) {
                 $query->where('municipality', $municipality);
             })
-            ->orderBy('created_at', 'asc');
+            ->orderBy('created_at', 'desc');
 
         // Pass the filtered attachments to the view
         return view('staff.staff_attachments', ['files' => $files->paginate(8)]);
@@ -28,17 +28,16 @@ class StaffController extends Controller
     {
         $userProfileId = auth()->user()->userProfile->id;
     
-        // Query for attachments with 'Everyone' restriction
-        $filesQuery = $this->getAttachments(['Everyone']);
-    
-        // Query for attachments with 'Only_Me' restriction for the current user
-        $userFilesQuery = $this->getAttachments(['Only_Me'], $userProfileId);
-    
-        // Combine the two queries using the union() method
-        $combinedQuery = $filesQuery->union($userFilesQuery);
+        $filesQuery = Attachment::where(function($query) use ($userProfileId) {
+            $query->where('restrictions', 'Everyone')
+                  ->orWhere(function($query) use ($userProfileId) {
+                      $query->where('restrictions', 'Only_Me')
+                            ->where('userprofile_id', $userProfileId);
+                  });
+        })->orderBy('created_at', 'desc');
     
         // Paginate the combined query
-        $paginatedFiles = $combinedQuery->paginate(8);
+        $paginatedFiles = $filesQuery->paginate(8);
     
         // Return the view with the paginated files
         return view("staff.staff_attachments", ['files' => $paginatedFiles]);
@@ -74,7 +73,7 @@ class StaffController extends Controller
     private function getAttachments($restrictions, $userprofile_id = null)
     {
         // Initialize the query to order by creation date
-        $filesQuery = Attachment::orderBy('created_at', 'asc');
+        $filesQuery = Attachment::orderBy('created_at', 'desc');
     
         // Handle the restrictions provided as a single string or an array
         if (is_array($restrictions)) {

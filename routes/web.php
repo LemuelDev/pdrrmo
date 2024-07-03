@@ -120,7 +120,13 @@ Route::middleware(['auth' , 'superadmin'])->group(function () {
 
 Route::middleware(['auth', 'admin'])->group(function () {
 
-    Route::get('/admin/all-admins', [AdminController::class, 'admin'])->name('admin.admin');
+    // Route::get('/admin/all-admins', [AdminController::class, 'admin'])->name('admin.admin');
+
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+
+    Route::put('/admin/users/disable/{admin}', [AdminController::class, 'disableUser'])->name('admin.disable');
+
+    Route::put('/admin/users/enable/{admin}', [AdminController::class, 'enableUser'])->name('admin.enable');
 
     Route::get('/admin/all-admins/{municipality}', [AdminController::class ,'specificAdmin'])->name('admin.specificAdmin');
 

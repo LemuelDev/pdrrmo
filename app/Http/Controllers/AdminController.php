@@ -26,7 +26,7 @@ class AdminController extends Controller
             ->whereHas('userProfile', function ($query) use ($municipality) {
                 $query->where('municipality', $municipality);
             })
-            ->orderBy('created_at', 'asc');
+            ->orderBy('created_at', 'desc');
 
         // Pass the filtered attachments to the view
         return view('admin.adminAttachments', ['files' => $files->paginate(8)]);
@@ -37,17 +37,16 @@ class AdminController extends Controller
     {
         $userProfileId = auth()->user()->userProfile->id;
     
-        // Query for attachments with 'Everyone' restriction
-        $filesQuery = $this->getAttachments(['Everyone']);
-    
-        // Query for attachments with 'Only_Me' restriction for the current user
-        $userFilesQuery = $this->getAttachments(['Only_Me'], $userProfileId);
-    
-        // Combine the two queries using the union() method
-        $combinedQuery = $filesQuery->union($userFilesQuery);
+        $filesQuery = Attachment::where(function($query) use ($userProfileId) {
+            $query->where('restrictions', 'Everyone')
+                  ->orWhere(function($query) use ($userProfileId) {
+                      $query->where('restrictions', 'Only_Me')
+                            ->where('userprofile_id', $userProfileId);
+                  });
+        })->orderBy('created_at', 'desc');
     
         // Paginate the combined query
-        $paginatedFiles = $combinedQuery->paginate(8);
+        $paginatedFiles = $filesQuery->paginate(8);
     
         // Return the view with the paginated files
         return view("admin.adminAttachments", ['files' => $paginatedFiles]);
@@ -67,7 +66,7 @@ class AdminController extends Controller
 
         if (auth()->user()->userProfile->municipality === 'pdrrmo' && auth()->user()->userProfile->user_type === 'admin' ) {
             
-            $staffsQuery = UserProfile::orderBy('created_at', 'asc')
+            $staffsQuery = UserProfile::orderBy('created_at', 'desc')
             ->where('isPending', '!=', 'pending')
             ->where('user_status', '!=', 'inactive')
             ->where('user_type', 'staff');
@@ -85,7 +84,7 @@ class AdminController extends Controller
 
         }
 
-        $staffsQuery = UserProfile::orderBy('created_at', 'asc')
+        $staffsQuery = UserProfile::orderBy('created_at', 'desc')
         ->where('isPending', '!=', 'pending')
         ->where('user_status', '!=', 'inactive')
         ->where('user_type', 'staff')
@@ -112,33 +111,52 @@ class AdminController extends Controller
     }
 
     
-    public function admin() {
+    // public function admin() {
 
-        if (auth()->user()->userProfile->municipality === 'pdrrmo' && auth()->user()->userProfile->user_type === 'admin' ) {
-            $adminQuery = UserProfile::orderBy('created_at', 'asc')
-                    ->where('isPending', '!=', 'pending')
-                    ->where('user_status', 'active')
-                    ->where('user_type', 'admin')
-                    ->where('id', '!=', auth()->user()->userProfile->id );
+    //     if (auth()->user()->userProfile->municipality === 'pdrrmo' && auth()->user()->userProfile->user_type === 'admin' ) {
+    //         $adminQuery = UserProfile::orderBy('created_at', 'desc')
+    //                 ->where('isPending', '!=', 'pending')
+    //                 ->where('user_status', 'active')
+    //                 ->where('user_type', 'admin')
+    //                 ->where('id', '!=', auth()->user()->userProfile->id );
                     
 
-                    if (request()->has('search')) {
-                        $searchQuery = request()->get('search');
-                        $adminQuery->where('name', 'like', '%' . $searchQuery . '%');
-                    }
+    //                 if (request()->has('search')) {
+    //                     $searchQuery = request()->get('search');
+    //                     $adminQuery->where('name', 'like', '%' . $searchQuery . '%');
+    //                 }
 
-                    $admins = $adminQuery;
+    //                 $admins = $adminQuery;
 
-                    return view("admin.adminAdmins", [
-                        "admins" => $admins->paginate(8)
-                    ]);
-        }
+    //                 return view("admin.adminAdmins", [
+    //                     "admins" => $admins->paginate(8)
+    //                 ]);
+    //     }
         
-        $adminQuery = UserProfile::orderBy('created_at', 'asc')
+    //     $adminQuery = UserProfile::orderBy('created_at', 'desc')
+    //                 ->where('isPending', '!=', 'pending')
+    //                 ->where('user_status', 'active')
+    //                 ->where('user_type', 'admin')
+    //                 ->where('municipality', auth()->user()->userProfile->municipality);
+
+    //                 if (request()->has('search')) {
+    //                     $searchQuery = request()->get('search');
+    //                     $adminQuery->where('name', 'like', '%' . $searchQuery . '%');
+    //                 }
+
+    //                 $admins = $adminQuery;
+
+    //                 return view("admin.adminAdmins", [
+    //                     "admins" => $admins->paginate(8)
+    //                 ]);
+    // }
+
+    public function users() {
+        
+        $adminQuery = UserProfile::orderBy('created_at', 'desc')
                     ->where('isPending', '!=', 'pending')
-                    ->where('user_status', 'active')
-                    ->where('user_type', 'admin')
-                    ->where('municipality', auth()->user()->userProfile->municipality);
+                    ->where('user_type', '!=','superadmin')
+                    ->where('id', '!=', auth()->user()->userProfile->id );
 
                     if (request()->has('search')) {
                         $searchQuery = request()->get('search');
@@ -147,11 +165,36 @@ class AdminController extends Controller
 
                     $admins = $adminQuery;
 
-                    return view("admin.adminAdmins", [
+                    return view("admin.adminUsers", [
                         "admins" => $admins->paginate(8)
                     ]);
     }
 
+    public function disableUser(User $admin) {
+        
+        $admin->userProfile()->update([
+            'user_status'=> 'disabled'
+        ]);
+
+        if(auth()->user()->userProfile->municipality === 'pdrrmo'){
+            return redirect()->route('admin.users')->with('success',' Disabled Successfully!');
+        }else {
+            return redirect()->route('admin.staff')->with('success',' Disabled Successfully!');
+        }
+    }
+
+    public function enableUser(User $admin) {
+        
+        $admin->userProfile()->update([
+            'user_status'=> 'enable'
+        ]);
+
+        if(auth()->user()->userProfile->municipality === 'pdrrmo'){
+            return redirect()->route('admin.users')->with('success',' Enabled Successfully!');
+        }else {
+            return redirect()->route('admin.staff')->with('success',' Enabled Successfully!');
+        }
+    }
     
     public function editAdmin(User $admin){
         
@@ -212,7 +255,7 @@ class AdminController extends Controller
     private function getAttachments($restrictions, $userprofile_id = null)
     {
         // Initialize the query to order by creation date
-        $filesQuery = Attachment::orderBy('created_at', 'asc');
+        $filesQuery = Attachment::orderBy('created_at', 'desc');
     
         // Handle the restrictions provided as a single string or an array
         if (is_array($restrictions)) {
@@ -248,12 +291,15 @@ class AdminController extends Controller
     public function approval() {
 
         if(auth()->user()->userProfile->municipality === 'pdrrmo'){
-            $staffs = UserProfile::orderBy('created_at', 'asc')
+            $staffs = UserProfile::orderBy('created_at', 'desc')
             ->where(function ($query) {
-                $query->where('isPending', 'pending')
-                    ->orWhere('user_status', 'inactive');
+                $query->where('isPending', 'pending');
             });
-    
+            
+            if (request()->has('search')) {
+                $searchQuery = request()->get('search');
+                $staffs->where('filename', 'like', '%' . $searchQuery . '%');
+            }
     
             return view("admin.adminApproval", [
                 "staffs" => $staffs->paginate(8)
@@ -264,10 +310,13 @@ class AdminController extends Controller
         ->where('user_type', 'staff')
         ->where('municipality', auth()->user()->userProfile->municipality)
         ->where(function ($query) {
-            $query->where('isPending', 'pending')
-                ->orWhere('user_status', 'inactive');
+            $query->where('isPending', 'pending');
         });
 
+        if (request()->has('search')) {
+            $searchQuery = request()->get('search');
+            $staffs->where('filename', 'like', '%' . $searchQuery . '%');
+        }
 
         return view("admin.adminApproval", [
             "staffs" => $staffs->paginate(8)
@@ -367,7 +416,6 @@ class AdminController extends Controller
 
         $user->userProfile()->update([
             "isPending" => 'approved',
-            "user_status" => 'active'
         ]);
         
         $message = "Your account is finally approved and active. You can now login to the portal and use the system as of now.";

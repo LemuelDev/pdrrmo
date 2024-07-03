@@ -22,49 +22,96 @@ class AuthController extends Controller
     public function login(){
         return view ("shared.login");
     }
-    public function store (){
+    public function store() {
 
+        $requiredFields = ['lastname', 'firstname', 'email', 'username', 'password', 'municipality', 'profile_picture'];
+    
+        foreach ($requiredFields as $field) {
+            if (empty(request($field))) {
+                return back()->withErrors(['general' => 'All fields must be filled up.'])->withInput();
+            }
+        }
+        
         $validated = request()->validate([
-            "name" => "required|min:5|max:40|unique:userprofiles,name",
-            "email"=> "required|email|unique:userprofiles,email",
-            "username" => "required|min:5|max:40|unique:users,username",
-            "password" => "required|min:8",
-            "municipality" => "required"
+            "lastname" => "required|string|max:40",
+            "firstname" => "required|string|max:40",
+            "middlename" => "nullable|string|max:40",
+            "email" => "required|email",
+            "username" => "required|max:40",
+            "password" => [
+                'required',
+                'string',
+                'min:8',
+                'regex:/[a-z]/', // must contain at least one lowercase letter
+                'regex:/[A-Z]/', // must contain at least one uppercase letter
+                'regex:/[0-9]/', // must contain at least one number
+                'regex:/[@$!%*?&#]/' // must contain a special character
+            ],
+            "municipality" => "required|string",
+            "profile_picture" => "required|image|mimes:jpeg,png,jpg" // Optional field with validation for image file
+        ], [
+            'password.regex' => 'Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character.'
         ]);
+
+        // Check if email already exists in users table
+            if (UserProfile::where('email', $validated['email'])->exists() && User::where('username', $validated['username'])->exists()) {
+                return redirect()->back()->with('failed', 'This user already has an account.');
+            }
+
+    
+        // Concatenate lastname, firstname, and middlename into name
+        $name = $validated["lastname"] . ', ' . $validated["firstname"];
+        if (!empty($validated["middlename"])) {
+            $name .= ' ' . $validated["middlename"];
+        }
+    
+        // Handle profile picture upload
+        $profilePicturePath = null;
+        if (request()->hasFile('profile_picture')) {
+            $profilePicture = request()->file('profile_picture');
+            $profilePicturePath = $profilePicture->store('profiles', 'public'); 
+        }
     
         // Create the user profile
         $userProfile = UserProfile::create([
-            "name"=> $validated["name"],
-            "email"=> $validated["email"],
+            "name" => $name,
+            "email" => $validated["email"],
             "municipality" => $validated["municipality"],
+            "profile" => $profilePicturePath // Add the path to the profile picture
         ]);
     
         // Create the user and associate it with the user profile
-         User::create([
+        User::create([
             "username" => $validated["username"],
-            "password"=> Hash::make($validated["password"]),
+            "password" => Hash::make($validated["password"]),
             "userprofile_id" => $userProfile->id 
         ]);
-        
+    
         session()->put('email', $validated['email']);
-        
+    
         // Send email notification
         $message = "Thanks for Signing up! Your Account is still for approval. We will contact you once your account is approved and ready to use.";
-        Mail::to($validated["email"])->send(new WelcomeEmail($message, $validated["name"], $validated["username"], $validated["email"], $validated["municipality"]));
-
-
+        Mail::to($validated["email"])->send(new WelcomeEmail(
+            $message, 
+            $name, // Use concatenated name here
+            $validated["username"], 
+            $validated["email"], 
+            $validated["municipality"]
+        ));
+    
         return redirect()->route("confirmation");
-
     }
+    
     
 
     public function authenticate(){
         
         $validated = request()->validate([
-            "username" => "required|min:5|max:40",
-            "password" => "required|min:8"
-         ]);
-
+            'username' => 'required',
+            'password' => 'required',
+        ], [
+            'required' => 'All fields must be filled up', // Custom message for required fields
+        ]);
 
          if (auth()->attempt($validated)){
         
@@ -74,9 +121,9 @@ class AuthController extends Controller
             if ($user->userProfile->isPending == 'pending'){
 
                 return redirect()->route("login")->with('failed', 'Your account is still for approval.');
-            }else if ($user->userProfile->user_status == 'inactive'){
+            }else if ($user->userProfile->user_status == 'disabled'){
                 
-                return redirect()->route("login")->with('failed', 'Your account is inactive.');
+                return redirect()->route("login")->with('failed', 'Your account is disabled.');
             }else {
 
                 request()->session()->regenerate();
@@ -87,7 +134,7 @@ class AuthController extends Controller
                 } elseif ($user->userProfile->user_type === 'admin') {
                  
                     if (auth()->user()->userProfile->municipality === 'pdrrmo'){
-                        return redirect()->route('admin.admin');
+                        return redirect()->route('admin.users');
                     }else {
                         return redirect()->route('admin.staff');
                     }
@@ -149,7 +196,6 @@ class AuthController extends Controller
 
     public function goToForgotPassword() {
         auth()->logout();
-
         request()->session()->invalidate();
         request()->session()->regenerateToken();
 

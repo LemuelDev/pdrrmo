@@ -77,7 +77,7 @@
                             (request()->route()->getName() === 'sa.public' ? route('sa.public') :
                             route('sa.only-me'))))
                         }}" method="GET" class="flex items-center justify-start max-lg:justify-center gap-4 w-full lg:w-auto max-[540px]:flex-col">
-                                   <h5 class="text-lg max-[540px]:text-2xl max-[540px]:font-bold ">Search Attachment:</h5>
+          
                                    <input type="text" name="search" id="search" placeholder="Search Here" class="px-8 py-1.5  max-[540px]:max-w-[390px] rounded-lg border-2 border-gray-700 outline-none shadow-xl flex-grow">
                                    <button type="submit" class="text-white bg-green-500 rounded-lg hover:bg-green-700 px-4 py-2 max-[540px]:min-w-[200px] ">SEARCH</button>
                              </form>

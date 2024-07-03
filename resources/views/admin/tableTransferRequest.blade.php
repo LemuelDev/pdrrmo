@@ -5,13 +5,13 @@
         <table class="table table-striped">
             <thead class="thead-dark">
             <tr>
-                <th scope="col" class="text-center">user_id</th>
-                <th scope="col" class="text-center">name</th>
-                <th scope="col" class="text-center">user_type</th>
-                <th scope="col" class="text-center">current_municipality</th>
-                <th scope="col" class="text-center">request_municipality</th>
-                <th scope="col" class="text-center">requested_at</th>
-                <th scope="col" class="text-center">action</th>
+                <th scope="col" class="text-center">USER_ID</th>
+                <th scope="col" class="text-center">NAME</th>
+                <th scope="col" class="text-center">USER_TYPE</th>
+                <th scope="col" class="text-center">CURRENT_MUNICIPALITY</th>
+                <th scope="col" class="text-center">REQUEST_MUNICIPALITY</th>
+                <th scope="col" class="text-center">REQUESTED_AT</th>
+                <th scope="col" class="text-center">ACTION</th>
             </tr>
             </thead>
             <tbody>

@@ -6,13 +6,13 @@
  <table class="table table-striped">
     <thead class="thead-dark">
         <tr>
-            <th scope="col" class="text-center">file_id</th>
-            <th scope="col" class="text-center">filename</th>
-            <th scope="col" class="text-center">uploader</th>
-            <th scope="col" class="text-center">user_type</th>
-            <th scope="col" class="text-center">uploaded_at</th>
-            <th scope="col" class="text-center">restrictions</th>
-            <th scope="col" class="text-center">actions</th>
+            <th scope="col" class="text-center">FILE_ID</th>
+            <th scope="col" class="text-center">FILENAME</th>
+            <th scope="col" class="text-center">UPLOADER</th>
+            <th scope="col" class="text-center">USER_TYPE</th>
+            <th scope="col" class="text-center">UPLOADED_AT</th>
+            <th scope="col" class="text-center">RESTRICTIONS</th>
+            <th scope="col" class="text-center">ACTIONS</th>
         </tr>
     </thead>
     <tbody>

@@ -70,15 +70,15 @@
                 @endif
         </div> 
     @else
-            <div class="pt-4 md:pl-4 flex flex-col lg:flex-row justify-start items-center  gap-4 lg:gap-6 max-md:pl-0">
+            <div class="pt-4 md:pl-4 flex flex-col lg:flex-row justify-start items-center pl-8  gap-4 lg:gap-6 max-md:pl-0">
                 <form action="{{ 
                 request()->route()->getName() === 'staff.attachments' ? route('staff.attachments') :
                 (request()->route()->getName() === 'staff.municipality' ? route('staff.municipality') :
                 (request()->route()->getName() === 'staff.search' ? route('staff.search') :
                 (request()->route()->getName() === 'staff.public' ? route('staff.public') :
                 route('staff.only-me'))))
-                }}" method="GET" class="flex items-center justify-start gap-4 w-full max-lg:justify-center lg:w-auto max-[540px]:flex-col">
-                    <h5 class="text-lg max-[540px]:text-2xl max-[540px]:font-bold ">Search Attachment:</h5>
+                }}" method="GET" class="flex items-center justify-start gap-4 w-full pl-4 max-lg:justify-center lg:w-auto max-[540px]:flex-col">
+
                     <input type="text" name="search" id="search" placeholder="Search Here" class="px-8 py-1.5  max-[540px]:max-w-[390px] rounded-lg border-solid border-2 border-[#363062] outline-green-500 shadow-xl">
                     <button type="submit" class="text-white bg-green-500 rounded-lg border-none hover:bg-green-700 px-4 py-2 max-[540px]:min-w-[200px] ">SEARCH</button>
                 </form>

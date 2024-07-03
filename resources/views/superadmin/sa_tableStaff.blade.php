@@ -5,14 +5,14 @@
         
         <table class="table table-striped">
             <thead class="thead-dark">
-            <tr>
-                <th scope="col" class="text-center">staff_id</th>
-                <th scope="col" class="text-center">name</th>
-                <th scope="col" class="text-center">email</th>
-                <th scope="col" class="text-center">user_type</th>
-                <th scope="col" class="text-center">municipality</th>
-                <th scope="col" class="text-center">action</th>
-            </tr>
+                <tr>
+                    <th scope="col" class="text-center">STAFF_ID</th>
+                    <th scope="col" class="text-center">NAME</th>
+                    <th scope="col" class="text-center">EMAIL</th>
+                    <th scope="col" class="text-center">USER_TYPE</th>
+                    <th scope="col" class="text-center">MUNICIPALITY</th>
+                    <th scope="col" class="text-center">ACTION</th>
+                </tr>
             </thead>
             <tbody>
             @forelse ($staffs as $staff)

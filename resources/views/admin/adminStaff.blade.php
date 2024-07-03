@@ -12,7 +12,6 @@
 
            <div class="pt-4 md:pl-4 flex flex-col lg:flex-row justify-start items-center gap-4 lg:gap-6 max-md:pl-0">
                 <form action="{{ route('admin.staff') }}" method="GET" class="flex items-center justify-start max-lg:justify-center max-lg:max-w-[700px] max-lg:mx-auto gap-4 max-sm:w-full lg:w-auto max-[540px]:flex-col">
-                    <h5 class="text-lg max-[540px]:text-2xl max-[540px]:font-bold ">Search Staff:</h5>
                     <input type="text" name="search" id="search" placeholder="Search Here" class="px-8 py-1.5  max-[540px]:max-w-[390px] rounded-lg border-2 border-gray-700 outline-none shadow-xl flex-grow">
                     <button type="submit" class="text-white bg-green-500 rounded-lg hover:bg-green-700 px-4 py-2 max-[540px]:min-w-[250px] ">SEARCH</button>
                 </form>

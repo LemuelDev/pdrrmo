@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 class SuperAdminController extends Controller
 {
     public function index() {
-        $adminQuery = UserProfile::orderBy('created_at', 'asc')
+        $adminQuery = UserProfile::orderBy('created_at', 'desc')
         ->where('isPending', '!=', 'pending')
         ->where('user_status', 'active')
         ->where('user_type', 'admin');
@@ -42,7 +42,7 @@ class SuperAdminController extends Controller
             ->whereHas('userProfile', function ($query) use ($municipality) {
                 $query->where('municipality', $municipality);
             })
-            ->orderBy('created_at', 'asc');
+            ->orderBy('created_at', 'desc');
 
         // Pass the filtered attachments to the view
         return view('superadmin.sa_attachments', ['files' => $files->paginate(8)]);
@@ -52,17 +52,16 @@ class SuperAdminController extends Controller
     {
         $userProfileId = auth()->user()->userProfile->id;
     
-        // Query for attachments with 'Everyone' restriction
-        $filesQuery = $this->getAttachments(['Everyone']);
-    
-        // Query for attachments with 'Only_Me' restriction for the current user
-        $userFilesQuery = $this->getAttachments(['Only_Me'], $userProfileId);
-    
-        // Combine the two queries using the union() method
-        $combinedQuery = $filesQuery->union($userFilesQuery);
+        $filesQuery = Attachment::where(function($query) use ($userProfileId) {
+            $query->where('restrictions', 'Everyone')
+                  ->orWhere(function($query) use ($userProfileId) {
+                      $query->where('restrictions', 'Only_Me')
+                            ->where('userprofile_id', $userProfileId);
+                  });
+        })->orderBy('created_at', 'desc');
     
         // Paginate the combined query
-        $paginatedFiles = $combinedQuery->paginate(8);
+        $paginatedFiles = $filesQuery->paginate(8);
     
         // Return the view with the paginated files
         return view("superadmin.sa_attachments", ['files' => $paginatedFiles]);
@@ -96,7 +95,7 @@ class SuperAdminController extends Controller
     private function getAttachments($restrictions, $userprofile_id = null)
     {
         // Initialize the query to order by creation date
-        $filesQuery = Attachment::orderBy('created_at', 'asc');
+        $filesQuery = Attachment::orderBy('created_at', 'desc');
     
         // Handle the restrictions provided as a single string or an array
         if (is_array($restrictions)) {
@@ -127,7 +126,7 @@ class SuperAdminController extends Controller
     }
     public function staff() {
 
-        $staffsQuery = UserProfile::orderBy('created_at', 'asc')
+        $staffsQuery = UserProfile::orderBy('created_at', 'desc')
         ->where('isPending', '!=', 'pending')
         ->where('user_type', 'staff');
 
@@ -153,10 +152,9 @@ class SuperAdminController extends Controller
     
 
     public function approval() {
-        $staffs = UserProfile::orderBy('created_at', 'asc')
+        $staffs = UserProfile::orderBy('created_at', 'desc')
         ->where(function ($query) {
-            $query->where('isPending', 'pending')
-                ->orWhere('user_status', 'inactive');
+            $query->where('isPending', 'pending');
         });
         return view("superadmin.sa_approval", [
             "staffs" => $staffs->paginate(8)
@@ -178,7 +176,6 @@ class SuperAdminController extends Controller
 
         $user->userProfile()->update([
             "isPending" => 'approved',
-            "user_status" => 'active'
         ]);
         $message = "Your account is finally approved and active. You can now login to the portal and use the system as of now.";
         Mail::to($user->userProfile->email)->send(new ApproveEmail($message));
@@ -375,7 +372,6 @@ class SuperAdminController extends Controller
         ]);
 
         return redirect()->route('admin.request')->with('success', "The request is approved!");
-
     }
 
     
