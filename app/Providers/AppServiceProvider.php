@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\UserProfile;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Pagination\Paginator;
@@ -24,6 +25,29 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
         $this->loadGoogleStorage();
+
+        view()->composer('*', function ($view) {
+            $pendingCount = 0; // Default to zero if the user is not authenticated
+    
+            if (auth()->check()) { // Check if the user is authenticated
+                $userProfile = auth()->user()->userProfile;
+    
+                if ($userProfile) {
+                    if ($userProfile->municipality === 'pdrrmo' || $userProfile->user_type === 'superadmin' ) {
+                        // Calculate pending count for 'pdrrmo' users
+                        $pendingCount = UserProfile::where('isPending', 'pending')->count();
+                    } else {
+                        // Calculate pending count for other municipalities
+                        $pendingCount = UserProfile::where('user_type', 'staff')
+                            ->where('municipality', $userProfile->municipality)
+                            ->where('isPending', 'pending')->count();
+                    }
+                }
+            }
+    
+            // Share pendingCount with all views
+            $view->with('pendingCount', $pendingCount);
+        });
     }
 
     private function loadGoogleStorage() {

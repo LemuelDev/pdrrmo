@@ -10,7 +10,7 @@
                 <img src="{{ auth()->user()->userProfile->getImageUrl() }}" alt="Profile Picture" class="w-[40px] h-[40px] rounded-full">
                 
                 <!-- User Information -->
-                <div class=" px-4">
+                <div class=" px-2">
                     <p class="text-sm font-medium text-gray-900 mb-0">
                         {{ auth()->user()->userProfile->name }}
                     </p>

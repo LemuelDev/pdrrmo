@@ -170,6 +170,26 @@ class AdminController extends Controller
                     ]);
     }
 
+    public function specificUsers($municipality) {
+        
+        $adminQuery = UserProfile::orderBy('created_at', 'desc')
+        ->where('isPending', '!=', 'pending')
+        ->where('user_type', '!=','superadmin')
+        ->where('municipality', $municipality)
+        ->where('id', '!=', auth()->user()->userProfile->id );
+
+        if (request()->has('search')) {
+            $searchQuery = request()->get('search');
+            $adminQuery->where('name', 'like', '%' . $searchQuery . '%');
+        }
+
+        $admins = $adminQuery;
+
+        return view("admin.adminUsers", [
+            "admins" => $admins->paginate(8)
+        ]);
+    }
+
     public function disableUser(User $admin) {
         
         $admin->userProfile()->update([
@@ -298,7 +318,7 @@ class AdminController extends Controller
             
             if (request()->has('search')) {
                 $searchQuery = request()->get('search');
-                $staffs->where('filename', 'like', '%' . $searchQuery . '%');
+                $staffs->where('name', 'like', '%' . $searchQuery . '%');
             }
     
             return view("admin.adminApproval", [
@@ -315,7 +335,7 @@ class AdminController extends Controller
 
         if (request()->has('search')) {
             $searchQuery = request()->get('search');
-            $staffs->where('filename', 'like', '%' . $searchQuery . '%');
+            $staffs->where('name', 'like', '%' . $searchQuery . '%');
         }
 
         return view("admin.adminApproval", [

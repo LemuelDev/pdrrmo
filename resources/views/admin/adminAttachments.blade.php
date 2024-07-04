@@ -81,8 +81,8 @@
                     $currentRouteName = request()->route()->getName();
                     $formAction = $routeMapping[$currentRouteName] ?? route('admin.onlyme');
                     @endphp
-                    <div class="pt-4 md:pl-4 flex flex-col lg:flex-row justify-start items-center gap-4 lg:gap-6 max-md:pl-0">
-                        <form action="{{ $formAction }}" method="GET" class="flex items-center justify-start max-lg:justify-center gap-4 w-full lg:w-auto max-[540px]:flex-col">
+                    <div class="pt-4 pl-8 md:pl-4 flex flex-col lg:flex-row justify-start items-center gap-4 lg:gap-6 max-md:pl-0">
+                        <form action="{{ $formAction }}" method="GET" class="flex pl-3 items-center justify-start max-lg:justify-center gap-4 w-full lg:w-auto max-[540px]:flex-col">
                             <input type="text" name="search" id="search" placeholder="Search Here" class="px-8 py-1.5  max-[540px]:max-w-[390px] rounded-lg border-2 border-gray-700 outline-none shadow-xl flex-grow">
                             <button type="submit" class="text-white bg-green-500 rounded-lg hover:bg-green-700 px-4 py-2 max-[540px]:min-w-[200px] ">SEARCH</button>
                         </form>
@@ -92,17 +92,36 @@
                             <a href="{{ route('admin.create') }}" class="text-white text-center py-2 px-2 rounded-lg bg-blue-500 hover:bg-blue-700 w-full hover:no-underline lg:w-auto max-lg:min-w-[180px]  md:max-w-full">
                                 CREATE NEW FILE
                             </a>
-                            <button id="restrictionsDropdown" class="text-white py-2 px-2 rounded-lg bg-violet-500 hover:bg-violet-700 w-full lg:w-auto  md:max-w-full">
-                                RESTRICTIONS
-                            </button>
-                            <button id="municipalityDropdown" class="text-white py-2 px-2 rounded-lg bg-violet-500 hover:bg-violet-700 w-full max-[540px]:col-span-2  lg:w-auto max-lg:min-w-[180px]  md:max-w-full ">
-                                MUNICIPALITY
-                            </button>
+                            <select id="restrictionsDropdown" class="text-white py-2 px-2 rounded-lg bg-red-500 hover:bg-red-500 w-full lg:w-auto md:max-w-full">
+                                <option value="" disabled selected>Select Restriction</option>
+                                <option value="{{ route('admin.public') }}">Public</option>
+                                <option value="{{ route('admin.attachments') }}">Everyone</option>
+                                <option value="{{ route('admin.municipality') }}">Municipality</option>
+                                <option value="{{ route('admin.onlyme') }}">Only Me</option>
+                            </select>
+                            <select id="municipalityDropdown" class="text-white py-2 px-2 rounded-lg bg-violet-600 hover:bg-violet-700 w-full max-[540px]:col-span-2 lg:w-auto max-lg:min-w-[180px] md:max-w-full">
+                                <option value="" disabled selected>SORT</option>
+                                <option value="{{ route('admin.search', 'sta_cruz') }}">STACRUZ</option>
+                                <option value="{{ route('admin.search', 'candelaria') }}">CANDELARIA</option>
+                                <option value="{{ route('admin.search', 'masinloc') }}">MASINLOC</option>
+                                <option value="{{ route('admin.search', 'palauig') }}">PALAUIG</option>
+                                <option value="{{ route('admin.search', 'iba') }}">IBA</option>
+                                <option value="{{ route('admin.search', 'botolan') }}">BOTOLAN</option>
+                                <option value="{{ route('admin.search', 'cabangan') }}">CABANGAN</option>
+                                <option value="{{ route('admin.search', 'subic') }}">SUBIC</option>
+                                <option value="{{ route('admin.search', 'castillejos') }}">CASTILLEJOS</option>
+                                <option value="{{ route('admin.search', 'san_antonio') }}">SAN ANTONIO</option>
+                                <option value="{{ route('admin.search', 'san_felipe') }}">SAN FELIPE</option>
+                                <option value="{{ route('admin.search', 'san_marcelino') }}">SAN MARCELINO</option>
+                                <option value="{{ route('admin.search', 'san_narciso') }}">SAN NARCISO</option>
+                                <option value="{{ route('admin.search', 'pdrrmo') }}">PDRRMO</option>
+                                <option value="{{ route('admin.attachments') }}">VIEW ALL</option>
+                            </select>
                         </div>
 
 
                                  <!-- Modal structure for RESTRICTIONS -->
-                         <div id="restrictionsModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
+                         {{-- <div id="restrictionsModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
                             <div class="bg-white rounded-lg p-4 shadow-lg w-[400px ]">
                                 <h3 class="text-xl font-semibold text-center py-4">Select Restriction</h3>
                                 <ul id="restrictionsList" class="grid grid-cols-2 gap-8 px-4">
@@ -139,13 +158,28 @@
                                         </div>
                                         <button id="closeModal" class="mt-4 py-2 px-3 bg-red-500 text-white rounded">Close</button>
                                     </div>
-                                </div>
+                                </div> --}}
                         {{-- @endif  --}}
          
          
                      </div>
                      
                      <script>
+                        document.getElementById("restrictionsDropdown").addEventListener("change", function() {
+                            var selectedValue = this.value;
+                            if (selectedValue) {
+                                window.location.href = selectedValue;
+                            }
+                        });
+                        document.getElementById("municipalityDropdown").addEventListener("change", function() {
+                            var selectedValue = this.value;
+                            if (selectedValue) {
+                                window.location.href = selectedValue;
+                            }
+                        });
+                        </script>
+
+                     {{-- <script>
                           document.addEventListener("DOMContentLoaded", function() {
                          // Function to handle modal show and hide
                          function handleModal(modalButtonId, modalId, closeButtonId, listId) {
@@ -174,12 +208,12 @@
                          }
          
                          // Apply the modal handling function to RESTRICTIONS and PER-MUNICIPALITY
-                         handleModal("restrictionsDropdown", "restrictionsModal", "closeRestrictionsModal", "restrictionsList");
+                         // handleModal("restrictionsDropdown", "restrictionsModal", "closeRestrictionsModal", "restrictionsList");
                          handleModal("municipalityDropdown", "municipalityModal", "closeModal", "municipalitiesList");
-                     });
+                     }); --}}
          
-        
-                     </script>
+{{--         
+                     </script> --}}
          
                      {{-- tables --}}
                      <div class="pt-4 xl:px-8 max-lg:px-4 max-w-[1300px] 2xl:max-w-[1500px] max-[1450px]:max-w-[1100px] max-xl:max-w-[970px] max-lg:max-w-full max-sm:px-0">

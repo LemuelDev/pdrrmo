@@ -124,6 +124,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
 
+    Route::get('/admin/users/{municipality}', [AdminController::class, 'specificUsers'])->name('admin.specificUsers');
+
     Route::put('/admin/users/disable/{admin}', [AdminController::class, 'disableUser'])->name('admin.disable');
 
     Route::put('/admin/users/enable/{admin}', [AdminController::class, 'enableUser'])->name('admin.enable');

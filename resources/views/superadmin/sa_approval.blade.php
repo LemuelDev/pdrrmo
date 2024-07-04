@@ -9,9 +9,15 @@
                 
             @include('shared.navbar')
 
-            <div class="pt-4 pl-8 max-sm:text-center max-sm:pl-0">
-                <h4 class="text-2xl font-bold">PENDING APPROVALS:</h4>
+            
+            <div class="pt-4 md:pl-4 flex flex-col lg:flex-row justify-start items-center gap-4 lg:gap-6 max-md:pl-0">
+                <form action="{{route('sa.approval')}}" method="get" class="flex pl-3 items-center justify-start max-lg:justify-center gap-4 w-full lg:w-auto max-[540px]:flex-col">
+                    <input type="text" name="search" id="search" placeholder="Search Here"  class="px-8 py-1.5  max-[540px]:max-w-[390px] rounded-lg border-2 border-gray-700 outline-none shadow-xl flex-grow">
+                    <button  class="text-white bg-green-500 rounded-lg hover:bg-green-700 px-4 py-2 max-[540px]:min-w-[200px] ">SEARCH</button>                       
+                 </form>
+ 
             </div>
+
 
             {{-- tables --}}
             <div class="pt-4 xl:px-8 max-lg:px-4 max-w-[1300px] 2xl:max-w-[1500px] max-[1450px]:max-w-[1100px] max-xl:max-w-[970px] max-lg:max-w-full max-sm:px-0">

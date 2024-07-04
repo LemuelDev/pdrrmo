@@ -10,80 +10,42 @@
             @include('shared.navbar')
             {{--  search staff --}}
 
-
             <div class="pt-4 md:pl-4 flex flex-col lg:flex-row justify-start items-center gap-4 lg:gap-6 max-md:pl-0">
-                <form action="{{ route('sa.staff') }}" method="GET" class="flex items-center justify-start max-lg:justify-center max-lg:max-w-[700px] max-lg:mx-auto gap-4 max-sm:w-full lg:w-auto max-[540px]:flex-col">
-
+                <form action="{{ route('sa.staff') }}" method="GET" class="flex items-center  justify-start max-lg:justify-center max-lg:max-w-[700px] max-lg:mx-auto max-sm:pl-0 gap-4 max-sm:w-full lg:w-auto max-[540px]:flex-col">
                     <input type="text" name="search" id="search" placeholder="Search Here" class="px-8 py-1.5  max-[540px]:max-w-[390px] rounded-lg border-2 border-gray-700 outline-none shadow-xl flex-grow">
                     <button type="submit" class="text-white bg-green-500 rounded-lg hover:bg-green-700 px-4 py-2 max-[540px]:min-w-[250px] ">SEARCH</button>
                 </form>
-                                <!-- Button to trigger modal -->
-                                <button id="municipalityDropdown" class="no-underline text-white text py-2 px-3 rounded-lg bg-violet-500 hover:no-underline hover:bg-violet-700 max-lg:w-[400px] max-[450px]:w-[250px]">
-                                    PER-MUNICIPALITY
-                                 </button>
-                
-                            <!-- Modal structure -->
-                 <div id="municipalityModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
-                    <div class="bg-white rounded-lg p-4 shadow-lg" style="width: 650px;">
-                        <h3 class="text-lg font-semibold py-2 text-center">Select Municipality</h3>
-                        <!-- Create a grid with 3 columns -->
-                        <div class="">
-                             <ul id="municipalitiesList" class="grid grid-cols-3 gap-4">
-                                 <li><a href="{{ route('sa.specificStaff', 'sta_cruz') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700 ">STACRUZ</a></li>
-                                 <li><a href="{{ route('sa.specificStaff', 'candelaria') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">CANDELARIA</a></li>
-                                 <li><a href="{{ route('sa.specificStaff', 'masinloc') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">MASINLOC</a></li>
-                                 <li><a href="{{ route('sa.specificStaff', 'palauig') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">PALAUIG</a></li>
-                                 <li><a href="{{ route('sa.specificStaff', 'iba') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">IBA</a></li>
-                                 <li><a href="{{ route('sa.specificStaff', 'botolan') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">BOTOLAN</a></li>
-                                 <li><a href="{{ route('sa.specificStaff', 'cabangan') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">CABANGAN</a></li>
-                                 <li><a href="{{ route('sa.specificStaff', 'subic') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">SUBIC</a></li>
-                                 <li><a href="{{ route('sa.specificStaff', 'castillejos') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">CASTILLEJOS</a></li>
-                                 <li><a href="{{ route('sa.specificStaff', 'san_antonio') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">SAN ANTONIO</a></li>
-                                 <li><a href="{{ route('sa.specificStaff', 'san_felipe') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">SAN FELIPE</a></li>
-                                 <li><a href="{{ route('sa.specificStaff', 'san_marcelino') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">SAN MARCELINO</a></li>                        
-                                 <li><a href="{{ route('sa.specificStaff', 'san_narciso') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">SAN NARCISO</a></li>
-                                 <li><a href="{{ route('sa.specificStaff', 'pdrrmo') }}" class="block px-4 py-2 text-black hover:bg-gray-200 text-xl rounded-lg hover:no-underline hover:text-blue-700">PDRRMO</a></li>
-                             </ul>
-                         </div>
-                         <button id="closeModal" class="mt-4 py-2 px-3 bg-red-500 text-white rounded">Close</button>
-                         </div>
-                     </div>
-                
-                    </div>
-                            
-                            <script>
-                                 document.addEventListener("DOMContentLoaded", function() {
-                                // Function to handle modal show and hide
-                                function handleModal(modalButtonId, modalId, closeButtonId, listId) {
-                                    var modalButton = document.getElementById(modalButtonId);
-                                    var modal = document.getElementById(modalId);
-                                    var closeButton = document.getElementById(closeButtonId);
-                                    var list = document.getElementById(listId);
-                
-                                    // Show modal on button click
-                                    modalButton.addEventListener("click", function() {
-                                        modal.classList.remove("hidden");
-                                    });
-                
-                                    // Hide modal on close button click
-                                    closeButton.addEventListener("click", function() {
-                                        modal.classList.add("hidden");
-                                    });
-                
-                                    // Hide modal when a list link is clicked
-                                    var links = list.querySelectorAll("a");
-                                    links.forEach(function(link) {
-                                        link.addEventListener("click", function() {
-                                            modal.classList.add("hidden");
-                                        });
-                                    });
-                                }
-                
-                                // Apply the modal handling function to RESTRICTIONS and PER-MUNICIPALITY
-                            
-                                handleModal("municipalityDropdown", "municipalityModal", "closeModal", "municipalitiesList");
-                            });
-                            </script>
+                               
+                <select id="municipalityDropdown" class="text-white py-2 px-2 rounded-lg bg-violet-600 hover:bg-violet-700 w-full max-[540px]:col-span-2 lg:w-auto max-lg:max-w-[250px] max-lg:mx-auto">
+                    <option value="" disabled selected>SORT</option>
+                    <option value="{{ route('sa.specificStaff', 'sta_cruz') }}">STACRUZ</option>
+                    <option value="{{ route('sa.specificStaff', 'candelaria') }}">CANDELARIA</option>
+                    <option value="{{ route('sa.specificStaff', 'masinloc') }}">MASINLOC</option>
+                    <option value="{{ route('sa.specificStaff', 'palauig') }}">PALAUIG</option>
+                    <option value="{{ route('sa.specificStaff', 'iba') }}">IBA</option>
+                    <option value="{{ route('sa.specificStaff', 'botolan') }}">BOTOLAN</option>
+                    <option value="{{ route('sa.specificStaff', 'cabangan') }}">CABANGAN</option>
+                    <option value="{{ route('sa.specificStaff', 'subic') }}">SUBIC</option>
+                    <option value="{{ route('sa.specificStaff', 'castillejos') }}">CASTILLEJOS</option>
+                    <option value="{{ route('sa.specificStaff', 'san_antonio') }}">SAN ANTONIO</option>
+                    <option value="{{ route('sa.specificStaff', 'san_felipe') }}">SAN FELIPE</option>
+                    <option value="{{ route('sa.specificStaff', 'san_marcelino') }}">SAN MARCELINO</option>
+                    <option value="{{ route('sa.specificStaff', 'san_narciso') }}">SAN NARCISO</option>
+                    <option value="{{ route('sa.specificStaff', 'pdrrmo') }}">PDRRMO</option>
+                    <option value="{{ route('sa.staff') }}">VIEW ALL</option>
+                </select>
+              
+            </div>
+              
+            <script>
+                document.getElementById("municipalityDropdown").addEventListener("change", function() {
+                    var selectedValue = this.value;
+                    if (selectedValue) {
+                        window.location.href = selectedValue;
+                    }
+                });
+                </script>
+                           
 
             <div class="pt-4 xl:px-8 max-lg:px-4 max-w-[1300px] 2xl:max-w-[1500px] max-[1450px]:max-w-[1100px] max-xl:max-w-[970px] max-lg:max-w-full max-sm:px-0">
                 @include('superadmin.sa_tableStaff')

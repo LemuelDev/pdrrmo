@@ -11,13 +11,13 @@
             
             <div class="pt-4 md:pl-4 flex flex-col lg:flex-row justify-start items-center gap-4 lg:gap-6 max-md:pl-0">
                 @if (request()->route()->getName() === 'admin.request')
-                <form action="{{route('admin.request')}}" method="get" class="flex items-center justify-start max-lg:justify-center gap-4 w-full lg:w-auto max-[540px]:flex-col">
+                <form action="{{route('admin.request')}}" method="get" class="flex pl-3 items-center justify-start max-lg:justify-center gap-4 w-full lg:w-auto max-[540px]:flex-col">
                     <input type="text" name="search" id="search" placeholder="Search Here"  class="px-8 py-1.5  max-[540px]:max-w-[390px] rounded-lg border-2 border-gray-700 outline-none shadow-xl flex-grow">
                     <button  class="text-white bg-green-500 rounded-lg hover:bg-green-700 px-4 py-2 max-[540px]:min-w-[200px] ">SEARCH</button>                       
                  </form>
                  
                 @else
-                <form action="{{route('admin.showApproval')}}" method="get" class="flex items-center justify-start max-lg:justify-center gap-4 w-full lg:w-auto max-[540px]:flex-col">
+                <form action="{{route('admin.showApproval')}}" method="get" class="flex  pl-3items-center justify-start max-lg:justify-center gap-4 w-full lg:w-auto max-[540px]:flex-col">
                     <input type="text" name="search" id="search" placeholder="Search Here"  class="px-8 py-1.5  max-[540px]:max-w-[390px] rounded-lg border-2 border-gray-700 outline-none shadow-xl flex-grow">
                     <button  class="text-white bg-green-500 rounded-lg hover:bg-green-700 px-4 py-2 max-[540px]:min-w-[200px] ">SEARCH</button>                       
                  </form>

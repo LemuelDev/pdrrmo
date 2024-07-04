@@ -1,4 +1,4 @@
-<div id="sidebar" class="fixed top-0 left-0 grid content-start gap-3 pt-8 text-left pl-2 min-h-screen w-[250px] h-screen bg-[#363062] transform -translate-x-full transition-transform duration-300 lg:translate-x-0 lg:relative lg:max-lg:hidden z-50 max-sm:w-[300px] max-lg:w-[400px] max-lg:pt-4">
+<div id="sidebar" class="fixed top-0 left-0 grid content-start gap-3 pt-8 text-left pl-2 min-h-screen w-[250px] h-screen bg-[#363062] transform -translate-x-full transition-transform duration-300 lg:translate-x-0 lg:relative lg:max-lg:hidden z-50 max-sm:w-[300px] max-lg:w-[400px] max-lg:pt-4 max-lg:pl-6">
     <div class="lg:hidden flex justify-end py-1 pr-4">
         <span id="sidebar-close" class="text-2xl cursor-pointer">
             <box-icon name='x-circle' color='#ffffff' size='md'></box-icon>
