@@ -18,7 +18,7 @@ class UserProfile extends Model
 
     protected $table = 'userprofiles';
 
-
+    
     public function user()
     {
             return $this->hasOne(User::class, 'userprofile_id')->onDelete('cascade');

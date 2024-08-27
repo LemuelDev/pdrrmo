@@ -36,19 +36,7 @@
                 <label for="username">Username:</label>
                 <input type="text" name="username" id="username" value="{{ old('username') }}" placeholder="Enter username..." class="py-3 w-full px-6 bg-slate-100 border-black outline-green-500">
             </div>
-            
-            <div class="max-[525px]:col-span-2">
-                <label for="password">Password:</label>
-                <input type="password" name="password" id="password" placeholder="Enter password..." class="py-3 w-full px-6 bg-slate-100 border-black outline-green-500">
-                <span class="text-sm text-gray-500 italic">
-                    Must contain at least one lowercase letter, one uppercase letter, one number, and one special character.
-                </span>
-            </div>
-
-            <div class="max-[525px]:col-span-2">
-                <label for="password_confirmation">Confirm Password:</label>
-                <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm password..." class="py-3 w-full px-6 bg-slate-100 border-black outline-green-500">
-            </div>
+       
             
             <div class="max-[525px]:col-span-2">
                 <label for="email">Email:</label>
@@ -73,6 +61,23 @@
                     <option value="subic">SUBIC</option>
                     <option value="pdrrmo">PDRRMO</option>
                 </select>
+            </div>
+
+                 
+            <div class="max-[525px]:col-span-2">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" placeholder="Enter password..." class="py-3 w-full px-6 bg-slate-100 border-black outline-green-500">
+                <span class="text-sm text-gray-500 italic">
+                    Must contain at least one lowercase letter, one uppercase letter, one number, and one special character.
+                </span>
+            </div>
+
+            <div class="max-[525px]:col-span-2">
+                <label for="password_confirmation">Confirm Password:</label>
+                <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Confirm password..." class="py-3 w-full px-6 bg-slate-100 border-black outline-green-500">
+                <span class="text-sm text-gray-500 italic">
+                    Confirm your password.
+                </span>
             </div>
 
             <div class="col-span-2">
