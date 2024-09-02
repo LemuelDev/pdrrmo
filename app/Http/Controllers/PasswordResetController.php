@@ -71,7 +71,8 @@ class PasswordResetController extends Controller
             'regex:/[a-z]/', // must contain at least one lowercase letter
             'regex:/[A-Z]/', // must contain at least one uppercase letter
             'regex:/[0-9]/', // must contain at least one number
-            'regex:/[@$!%*?&#]/' // must contain a special character
+            'regex:/[@$!%*?&#]/',
+            'confirmed'
         ], // Laravel will look for 'password_confirmation'
         'token_user' => 'required'
     ]);
