@@ -5,11 +5,15 @@
         </span>
     </div>
 
-    <a href="{{route('sa.admins')}}" class="{{ request()->route()->getName() === 'sa.admins'? 'text-white text-lg p-3 font-bold bg-blue-700 hover:no-underline flex items-center': 'text-white text-lg pt-3 font-bold hover:no-underline flex items-center' }}"><span class=" pt-1 pr-2 "><box-icon type='solid' name='user' color="#ffffff"></box-icon></span>Admins</a>
-    <a href="{{route('sa.staff')}}" class="{{ request()->route()->getName() === 'sa.staff'? 'text-white text-lg p-3 font-bold bg-blue-700 hover:no-underline flex items-center': 'text-white text-lg pt-3 font-bold hover:no-underline flex items-center' }}"><span class=" pt-1 pr-2 "><box-icon type='solid' name='user' color="#ffffff"></box-icon></span>Staff</a>
-    <a href="{{route('sa.attachments')}}" class="{{  request()->route()->getName() === 'sa.attachments' ? 'text-white text-lg p-3 font-bold bg-blue-700  hover:no-underline flex items-center' : 'text-white text-lg pt-3 font-bold hover:no-underline flex items-center' }}"><span class="pt-1 pr-2"><box-icon name='file' type='solid' color='#ffffff' ></box-icon></span>Attachments</a>
-    <a href="{{route('sa.approval')}}" class="{{  request()->route()->getName() === 'sa.approval' ? 'text-white text-lg p-3 font-bold bg-blue-700  hover:no-underline flex items-center' : 'text-white text-lg pt-3 font-bold hover:no-underline flex items-center' }}"><span class="pt-1 pr-2"><box-icon name='user-check' type='solid' color='#ffffff'></box-icon></span>Pending Approvals</a>
-    <a href="{{route('sa.request')}}" class="{{  request()->route()->getName() === 'sa.request' ? 'text-white text-lg p-3 font-bold bg-blue-700  hover:no-underline flex items-center' : 'text-white text-lg pt-3 font-bold hover:no-underline flex items-center' }}"><span class="pt-1 pr-2"><box-icon name='transfer' color='#ffffff' ></box-icon></span>Request of Transfers</a>
+    <div class="flex px-3 gap-3 justify-center items-start">
+        <img src={{asset('./images/pdrlogo.png')}} class="w-[50px] h-[50px] rounded-full m-0 p-0" alt="">
+        <p class="text-white text-md pt-3">PDRRMO</p>
+    </div>
+    <a href="{{route('sa.admins')}}" class="{{ request()->route()->getName() === 'sa.admins'? 'text-white text-lg p-3  bg-blue-700 hover:no-underline flex items-center': 'text-white text-lg pt-3  hover:no-underline flex items-center' }}"><span class=" pt-1 pr-2 "><box-icon type='solid' name='user' color="#ffffff"></box-icon></span>Admins</a>
+    <a href="{{route('sa.staff')}}" class="{{ request()->route()->getName() === 'sa.staff'? 'text-white text-lg p-3  bg-blue-700 hover:no-underline flex items-center': 'text-white text-lg pt-3  hover:no-underline flex items-center' }}"><span class=" pt-1 pr-2 "><box-icon type='solid' name='user' color="#ffffff"></box-icon></span>Staff</a>
+    <a href="{{route('sa.attachments')}}" class="{{  request()->route()->getName() === 'sa.attachments' ? 'text-white text-lg p-3  bg-blue-700  hover:no-underline flex items-center' : 'text-white text-lg pt-3  hover:no-underline flex items-center' }}"><span class="pt-1 pr-2"><box-icon name='file' type='solid' color='#ffffff' ></box-icon></span>Attachments</a>
+    <a href="{{route('sa.approval')}}" class="{{  request()->route()->getName() === 'sa.approval' ? 'text-white text-lg p-3  bg-blue-700  hover:no-underline flex items-center' : 'text-white text-lg pt-3  hover:no-underline flex items-center' }}"><span class="pt-1 pr-2"><box-icon name='user-check' type='solid' color='#ffffff'></box-icon></span>Pending Approvals</a>
+    <a href="{{route('sa.request')}}" class="{{  request()->route()->getName() === 'sa.request' ? 'text-white text-lg p-3  bg-blue-700  hover:no-underline flex items-center' : 'text-white text-lg pt-3  hover:no-underline flex items-center' }}"><span class="pt-1 pr-2"><box-icon name='transfer' color='#ffffff' ></box-icon></span>Request of Transfers</a>
     {{-- <form action="{{route('logout')}}" method="post">
         @csrf
         <button class="py-2 bg-red-600 text-white text-md px-4 rounded-md m-auto hover:bg-red-700 border-none ">LOGOUT</button>

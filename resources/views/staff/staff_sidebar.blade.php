@@ -4,8 +4,12 @@
             <box-icon name='x-circle' color='#ffffff' size='md'></box-icon>
         </span>
     </div>
-    <a href="{{route('staff.attachments')}}" class="{{  request()->route()->getName() === 'staff.attachments' ? 'text-white text-lg flex items-center p-3 font-bold bg-blue-700  hover:no-underline' : 'text-white text-lg flex items-center pt-3 font-bold hover:no-underline' }}"><span class="pt-1 pr-2"><box-icon name='file' type='solid' color='#ffffff' ></box-icon></span>Attachments</a>
-    <a href="{{route('staff.profile')}}" class="{{  request()->route()->getName() === 'staff.profile' ? 'text-white text-lg flex items-center p-3 py-3 font-bold bg-blue-700  hover:no-underline' : 'text-white text-lg flex items-center pt-3 font-bold hover:no-underline' }}"><span class=" pt-1 pr-2 "><box-icon type='solid' name='user' color="#ffffff"></box-icon></span>Profile</a>
+    <div class="flex px-3 gap-3 justify-center items-start">
+        <img src={{asset('./images/pdrlogo.png')}} class="w-[50px] h-[50px] rounded-full m-0 p-0" alt="">
+        <p class="text-white text-md pt-3">PDRRMO</p>
+    </div>
+    <a href="{{route('staff.attachments')}}" class="{{  request()->route()->getName() === 'staff.attachments' ? 'text-white text-lg flex items-center p-3  bg-blue-700  hover:no-underline' : 'text-white text-lg flex items-center pt-3  hover:no-underline' }}"><span class="pt-1 pr-2"><box-icon name='file' type='solid' color='#ffffff' ></box-icon></span>Attachments</a>
+    <a href="{{route('staff.profile')}}" class="{{  request()->route()->getName() === 'staff.profile' ? 'text-white text-lg flex items-center p-3 py-3  bg-blue-700  hover:no-underline' : 'text-white text-lg flex items-center pt-3  hover:no-underline' }}"><span class=" pt-1 pr-2 "><box-icon type='solid' name='user' color="#ffffff"></box-icon></span>Profile</a>
     {{-- <form action="{{route('logout')}}" method="post">
         @csrf
         <button class="py-1.5 bg-red-600 text-white text-md max-w-28 px-4 rounded-sm m-auto hover:bg-red-700">LOGOUT</button>

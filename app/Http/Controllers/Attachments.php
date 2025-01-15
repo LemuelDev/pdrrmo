@@ -54,15 +54,16 @@ class Attachments extends Controller
     }
 
 
-
     public function edit (Attachment $file) {
-        if(auth()->user()->userprofile->id !== $file->userprofile_id){
-            if (auth()->user()->userProfile->user_type === 'superadmin'){
-                return redirect()->route('sa.attachments')->with('failed','You are not the uploader of this file.');
-            }else if (auth()->user()->userProfile->user_type === 'admin'){
-                return redirect()->route('admin.attachments')->with('failed','You are not the uploader of this file.');
-            }else if (auth()->user()->userProfile->user_type === 'staff'){
-                return redirect()->route('staff.attachments')->with('failed','You are not the uploader of this file.');
+        if(auth()->user()->userProfile->user_type === 'admin' || auth()->user()->userProfile->user_type === 'staff'){
+            if(auth()->user()->userprofile->id !== $file->userprofile_id){
+                if (auth()->user()->userProfile->user_type === 'superadmin'){
+                    return redirect()->route('sa.attachments')->with('failed','You are not the uploader of this file.');
+                }else if (auth()->user()->userProfile->user_type === 'admin'){
+                    return redirect()->route('admin.attachments')->with('failed','You are not the uploader of this file.');
+                }else if (auth()->user()->userProfile->user_type === 'staff'){
+                    return redirect()->route('staff.attachments')->with('failed','You are not the uploader of this file.');
+                }
             }
         }
         
